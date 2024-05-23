@@ -5,7 +5,7 @@ export  function GET(req){
 const userId=cookies().get("userId")
 return NextResponse.json(
   {
-    userId  
+    userId :userId.value 
   })
 }
 return NextResponse.json({

@@ -11,7 +11,10 @@ const MakeOrder = () => {
        fetch('http://localhost:3000/api/userId').then(res=>res.json()).then(data=>{
         console.log(data)
         if(data.userId){
-        setUserId(data.userId.value)}
+        setUserId(data.userId)
+        console.log(data.userId,"userid")
+
+    }
         else{
             
             route.push('/user/log-in')
@@ -23,6 +26,7 @@ const MakeOrder = () => {
         const order={
             userId,orderItems:items
         }
+        console.log(order)
        const res=await fetch('http://localhost:5000/user/make-order',{
             method:"POST",
             headers:{
@@ -32,7 +36,7 @@ const MakeOrder = () => {
             mode:"cors"
         })
         const data=await res.json()
-        window.open(data.url, '_blank');
+        console.log(data)
     }
     async function registerOrder(){
         const order={

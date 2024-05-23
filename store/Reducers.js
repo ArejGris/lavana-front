@@ -11,7 +11,7 @@ export default function Reducers(initialState = state, action) {
       state.items.push(newitem);
     } else {
       const id = state.items.findIndex(item=>item.productId===newitem.productId);
-      state.items[id].quantity++;
+      state.items[id].quentity++;
     }
     console.log(state)
   }
@@ -21,9 +21,9 @@ export default function Reducers(initialState = state, action) {
     } else {
         
       const id = state.items.findIndex(item=>item.productId===newitem.productId);
-      const count = state.items[id].quantity;
+      const count = state.items[id].quentity;
       if (count > 1) {
-        state.items[id].quantity--;
+        state.items[id].quentity--;
       }
       if(count==1){
        state= state.items.filter(item=>item.productId!==newitem.productId)

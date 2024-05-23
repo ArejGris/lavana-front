@@ -21,7 +21,7 @@ const UpdatPage = (context) => {
   const [show,setShow]=useState(true)
   const { product } = context.params;
   async function getCat() {
-    const data = await fetch("http://localhost:5000/admin/get-categorys");
+    const data = await fetch("http://localhost:5000/admin/get-categorys",{mode:"cors"});
     const res = await data.json();
     setCategory(res.categorys);
     console.log(res);
@@ -58,7 +58,7 @@ const UpdatPage = (context) => {
               snap.style.width = "50px";
               snap.style.height = "50px";
               imagesdiv.appendChild(snap);
-                setImages((prev) => prev.push(downloadURl));
+                setImages((prev) => [...prev,downloadURl]);
                 setOldproduct((prev) => ({ ...prev, images: { ...images } }));
               
               console.log(images);

@@ -6,8 +6,9 @@ const AllCategory = () => {
    const [cats,setCats] =useState([])
   async function getCategory(){
        const res=await fetch('http://localhost:5000/admin/get-categorys',{mode:"cors"})
+      
+       console.log(res)
        const data=await res.json()
-       console.log(data.categorys)
        setCats(data.categorys)
     }
     useEffect(()=>{
@@ -19,9 +20,7 @@ const AllCategory = () => {
             <div className="cat">{cat.title}
             </div>
             <Link href={`/user/allCategorys/${cat.id}`}>visit page</Link>
-            </>
-            
-               
+            </>     
         ))
     }
     </div> );

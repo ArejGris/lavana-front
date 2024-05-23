@@ -13,7 +13,7 @@ const AddProduct = () => {
     const [progress,setProgress]=useState(0)
     async function getCat(){
         const data= await fetch('http://localhost:5000/admin/get-categorys',{
-            mode:'no-cors'
+            mode:'cors'
         })
         const res=await data.json()
        setCategory(res.categorys)
@@ -56,7 +56,7 @@ const AddProduct = () => {
                 snap.style.width='50px'
                 snap.style.height='50px'
                 imagesdiv.appendChild(snap) 
-                 setImages(prev=>prev.push(downloadURl)) 
+                 setImages(prev=>[...prev,downloadURl]) 
                  console.log(images)
               })
           })
@@ -79,7 +79,7 @@ const AddProduct = () => {
                  'Content-Type':'application/json'
                 },
                 body:JSON.stringify({categories:selectedCategory,keyWord:t,price:p,size:s,description:d,images}),
-                mode:"no-cors"
+                mode:"cors"
                })
               const data=await res.json()
                console.log(data) 

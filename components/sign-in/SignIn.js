@@ -3,14 +3,20 @@ import { useEffect, useState } from "react";
 import styles from "./signin.module.css";
 import { useRouter } from "next/navigation";
 import { CgSpinner } from "react-icons/cg";
+import Link from "next/link";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 export default function SignIn() {
-  const [info, setInfo] = useState({ firstname: "",lastname:"",location:"",city:"",tower:"",phoneNumber:"",birthDate:"",gender:"male", email: "", password: "" });
+  const [info, setInfo] = useState({ firstname: "",lastname:"",location:"",city:"",tower:"",phoneNumber:"",birthDate:new Date(),gender:"male", email: "", password: "" });
   const [error, setError] = useState("");
   const [pending, setPending] = useState("");
   const route = useRouter();
 
   function handleInput(e) {
     setInfo((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  }
+  function inputDate(date){
+    setInfo(prev=>({...prev,birthDate:date}))
   }
   async function handleSubmit(e) {
     e.preventDefault();
@@ -82,7 +88,11 @@ export default function SignIn() {
       </div>
       <div className={styles.form_group}>
         <label htmlFor="">Date of brith</label>
-        <input type="text" name="birthDate" onChange={(e) => handleInput(e)} />
+        <DatePicker
+        selected={info.birthDate}
+        onChange={(date) => inputDate(date)}
+        dateFormat="dd/MM/yyyy"
+      />
       </div>
       <div className={styles.form_group}>
         <label htmlFor="">gender</label>
@@ -109,6 +119,7 @@ export default function SignIn() {
           <span>sign up</span>
           {pending && <CgSpinner size={20} class="animate-spin" />}
         </button>
+        <Link href="/user/log-in" >log in</Link>
       </div>
     </form>
   );

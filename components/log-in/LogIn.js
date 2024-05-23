@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import styles from "./login.module.css";
 import { useRouter } from "next/navigation";
 import { CgSpinner } from "react-icons/cg";
+import Link from "next/link";
 export default function LogIn() {
   const [info, setInfo] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
@@ -69,12 +70,13 @@ export default function LogIn() {
         <label htmlFor="">Password</label>
         <input type="text" name="password" onChange={(e) => handleInput(e)} />
       </div>
-      {error && <span className={styles.error}>{error}</span>}
+      {error && <span className={styles.error}>somthing going wrong</span>}
       <div className={styles.actions}>
         <button>
           <span>log in</span>
           {pending && <CgSpinner size={20} class="animate-spin" />}
         </button>
+        <Link href="/user/sign-in">sign up</Link>
       </div>
     </form>
   );

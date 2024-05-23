@@ -7,9 +7,10 @@ const AllProducts = () => {
    async function getProducts(){
       const res=await  fetch('http://localhost:5000/admin/get-products',{mode:"cors"})
       const data=await res.json()
+      if(data.products){
       setProducts(data.products)
      
-    }
+    }}
   useEffect(()=>{
   getProducts()
   },[])

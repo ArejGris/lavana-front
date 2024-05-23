@@ -1,5 +1,5 @@
 async function getData(cat) {
-  const res = await fetch('http://localhost:5000/admin/get-category/'+cat,{mode:"cors"});
+  const res = await fetch('http://localhost:5000/admin/get-category/'+cat,{mode:"no-cors"});
   
   if (!res.ok) {
     return("internal server error");

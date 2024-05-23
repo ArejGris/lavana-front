@@ -7,7 +7,7 @@ const AddCategory = async() => {
         e.preventDefault()
         const t=title.current.value
         try {
-            const res= await fetch('/api/admin/category',{
+            const res= await fetch('http://localhost:5000/admin/add-category',{
                 method:"POST",
                 headers:{
                  'Content-Type':'application/json'

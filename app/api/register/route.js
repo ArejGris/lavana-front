@@ -12,7 +12,7 @@ export async function POST(req, res) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({firstname,lastname,phoneNumber,location,city,tower,birthDate,gender, email, password }),
-        mode:"no-cors"
+        mode:"cors"
       });
       const data = await res.json();
       const token = data.token;

@@ -39,7 +39,7 @@ left: 10%;
 }
 .actions{
     display: flex;
-    justify-content: left;
+    justify-content: space-between;
 }
 .actions button{
     padding: 10px 20px;

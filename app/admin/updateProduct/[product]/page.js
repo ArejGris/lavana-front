@@ -59,7 +59,7 @@ const UpdatPage = (context) => {
               snap.style.height = "50px";
               imagesdiv.appendChild(snap);
                 setImages((prev) => [...prev,downloadURl]);
-                setOldproduct((prev) => ({ ...prev, images: { ...images } }));
+                setOldproduct((prev) => ({ ...prev, images}));
               
               console.log(images);
             });
@@ -105,15 +105,11 @@ const UpdatPage = (context) => {
               snap.style.width = "50px";
               snap.style.height = "50px";
               imagesdiv.appendChild(snap);
-              setImages((prev) => ({
-                ...prev,
-                [`image${index + 1}`]: downloadURl,
-              }));
+              setImages((prev) => ( [...prev, downloadURl]
+              ));
               setOldproduct((prev) => ({
-                ...prev,
-                images: { ...images, [`image${index + 1}`]: downloadURl },
+                ...prev,images
               }));
-              console.log(`image${index + 1}`);
             });
           }
         );
@@ -121,7 +117,7 @@ const UpdatPage = (context) => {
     });
     console.log(images);
   }
-  function handleChangeDate(e) {
+  function handleChangeData(e) {
     setData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     setOldproduct((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
@@ -137,6 +133,7 @@ const UpdatPage = (context) => {
         body: JSON.stringify({
           categories: selectedCategory,
           ...data,
+          images
         }),
         mode: "cors",
       });
@@ -166,12 +163,12 @@ const UpdatPage = (context) => {
             <input
               type="number"
               name="price"
-              onChange={(e) => handleChangeDate(e)}
+              onChange={(e) => handleChangeData(e)}
             />
           </div>
           <div className="form-group">
             <label htmlFor="">size</label>
-            <select name="size" onChange={(e) => handleChangeDate(e)}>
+            <select name="size" onChange={(e) => handleChangeData(e)}>
               <option value="xx-small">xx-small</option>
               <option value="x-small">x-small</option>
               <option value="small">small</option>
@@ -187,7 +184,7 @@ const UpdatPage = (context) => {
             <input
               type="text"
               name="keyWord"
-              onChange={(e) => handleChangeDate(e)}
+              onChange={(e) => handleChangeData(e)}
             />
           </div>
           <div className="form-group">
@@ -195,7 +192,7 @@ const UpdatPage = (context) => {
             <input
               type="text"
               name="description"
-              onChange={(e) => handleChangeDate(e)}
+              onChange={(e) => handleChangeData(e)}
             />
           </div>
           <div className="form-group">
@@ -203,6 +200,7 @@ const UpdatPage = (context) => {
             <label htmlFor="">you want change or add</label><button onClick={()=>{setMode("change");setShow(false)}}>change</button>
             <button  onClick={()=>{setMode("add") ;setShow(false)}}>add</button></div>}
           </div>
+          <div className="images" id="images"></div>
          {mode=="change"&& <div className="form-group" id="images">
             <label htmlFor="">change images</label>
             <input

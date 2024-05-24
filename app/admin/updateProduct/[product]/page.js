@@ -14,7 +14,6 @@ const UpdatPage = (context) => {
   const [images, setImages] = useState([]);
   const [category, setCategory] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState([]);
-  const [progress, setProgress] = useState(0);
   const [progress2, setProgress2] = useState(0);
   const [oldproduct, setOldproduct] = useState(null);
   const [mode,setMode]=useState("")
@@ -61,7 +60,7 @@ const UpdatPage = (context) => {
                 setImages((prev) => [...prev,downloadURl]);
                 setOldproduct((prev) => ({ ...prev, images}));
               
-              console.log(images);
+              console.log(oldproduct);
             });
           }
         );
@@ -76,47 +75,7 @@ const UpdatPage = (context) => {
       setSelectedCategory(selectedCategory.filter((cat) => cat !== value));
     }
   }
-  function handleChange(e) {
-    e.preventDefault();
-    const inputfiles = document.getElementById("fileInput");
-    const files = inputfiles.files;
-    console.log(files);
-    Array.from(files).forEach((file, index) => {
-      if (file) {
-        const storageRef = ref(storage, `images/${file.name}`);
-        const upload = uploadBytesResumable(storageRef, file);
-        upload.on(
-          "state_changed",
-          (snapchat) => {
-            const progressAmount = Math.round(
-              (snapchat.bytesTransferred / snapchat.totalBytes) * 100
-            );
-            setProgress(progressAmount);
-          },
-          (error) => {
-            console.error(error);
-          },
-          () => {
-            getDownloadURL(upload.snapshot.ref).then((downloadURl) => {
-              console.log(downloadURl);
-              const imagesdiv = document.getElementById("images");
-              const snap = document.createElement("img");
-              snap.setAttribute("src", downloadURl);
-              snap.style.width = "50px";
-              snap.style.height = "50px";
-              imagesdiv.appendChild(snap);
-              setImages((prev) => ( [...prev, downloadURl]
-              ));
-              setOldproduct((prev) => ({
-                ...prev,images
-              }));
-            });
-          }
-        );
-      }
-    });
-    console.log(images);
-  }
+ 
   function handleChangeData(e) {
     setData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     setOldproduct((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -197,24 +156,13 @@ const UpdatPage = (context) => {
           </div>
           <div className="form-group">
             {show&&<div className="actions">
-            <label htmlFor="">you want change or add</label><button onClick={()=>{setMode("change");setShow(false)}}>change</button>
-            <button  onClick={()=>{setMode("add") ;setShow(false)}}>add</button></div>}
+            <label htmlFor="">you want change or add</label><button onClick={()=>{setMode("change");setImages([]);setShow(false)}}>change</button>
+            <button  onClick={()=>{setMode("add");setShow(false)}}>add</button></div>}
           </div>
           <div className="images" id="images"></div>
-         {mode=="change"&& <div className="form-group" id="images">
-            <label htmlFor="">change images</label>
-            <input
-              type="file"
-              id="fileInput"
-              name="files"
-              accept="image/*"
-              onChange={(e) => handleChange(e)}
-              multiple
-            />
-            <progress value={progress} max="100"></progress>
-          </div>}
-          {mode=="add"&&<div className="form-group" id="addimages">
-            <label htmlFor="">add images</label>
+       
+          <div className="form-group" id="addimages">
+            <label htmlFor="">{mode=="add"?"add images":"change images"}</label>
             <input
               type="file"
               id="filenewInput"
@@ -224,7 +172,7 @@ const UpdatPage = (context) => {
               multiple
             />
             <progress value={progress2} max="100"></progress>
-          </div>}
+          </div>
           <div className="form-group">
             <label htmlFor="">categories</label>
             <div type="text">

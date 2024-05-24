@@ -13,13 +13,14 @@ const Product = (context) => {
       const res=await fetch('http://localhost:5000/admin/get-product/'+product)
       const data=await res.json()
       setProductItem(data.product)
-      localStorage.setItem("images",data.product.images)
+      console.log(data.product)
     }
-    function load(){
-      const imgs=localStorage.get("images")
-      setImages(imgs)
-    }
-    return ( <>
+   
+    return ( <>{productItem&&<>
+    <h1>{productItem.keyWord}</h1>
+    <p>{productItem.description}</p>
+    <p>{productItem.price}</p>
+    <p>{productItem.size}</p></>}
             <Swiper
       spaceBetween={50}
       slidesPerView={1}
@@ -29,7 +30,6 @@ const Product = (context) => {
    {images&&images.map(img=> <SwiperSlide><img src={img} alt="img" /></SwiperSlide>) }
       ...
     </Swiper>  
-    <button onClick={load}>load images</button>
     </> );
 }
  

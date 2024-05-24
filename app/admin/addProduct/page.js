@@ -20,7 +20,9 @@ const AddProduct = () => {
        console.log(res)
     }
     useEffect(()=>{
-      getCat()
+      
+        getCat()
+     
     },[])
     function changeSelect(value,checked){
         console.log(value,checked)
@@ -87,7 +89,11 @@ const AddProduct = () => {
         } catch (error) {
             console.log(error)
         }
-    
+if(data.product){    const form=e.target
+    setSelectedCategory([])
+    setImages([])
+    setProgress(0)
+    form.reset()}
     }
     return ( <>
     <form onSubmit={send}>

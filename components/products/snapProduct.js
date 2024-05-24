@@ -7,11 +7,7 @@ const SnapProduct = ({product}) => {
     <h5>{product.size}</h5>
 <div className="images">
     <ul>
-        <li><img src={product.image1} alt="" style={{width:"50px"}} /></li>
-        <li><img src={product.image2} alt="" style={{width:"50px"}} /></li>
-        <li><img src={product.image3} alt="" style={{width:"50px"}} /></li>
-        <li><img src={product.image4} alt="" style={{width:"50px"}} /></li>
-        <li><img src={product.image5} alt="" style={{width:"50px"}} /></li>
+      {product.images.map(img=> <li><img src={img} alt="" style={{width:"50px"}} /></li>) }
     </ul>
 </div>
 </div>

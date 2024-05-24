@@ -10,7 +10,7 @@ const AllProducts = () => {
       const data=await res.json()
       if(data.products){
       setProducts(data.products)
-     
+       console.log(data.products,products)
     }else{
     route.refresh()
     }

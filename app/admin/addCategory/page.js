@@ -13,7 +13,7 @@ const AddCategory = async() => {
                  'Content-Type':'application/json'
                 },
                 body:JSON.stringify({title:t}),
-                mode: "no-cors"
+                mode: "cors"
                })
               const data=await res.json()
                console.log(data)

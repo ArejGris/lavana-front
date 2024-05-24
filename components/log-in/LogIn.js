@@ -38,13 +38,13 @@ export default function LogIn() {
             form.reset();
             setError("")
             setPending(false);
-            setNotification(data.message)
+            setNotification(data.msg)
             route.push("/");
           } else {
             const form = e.target;
             form.reset();
             setPending(false);
-            setError(data.message);
+            setError(data.msg);
           }
         });
     } catch (error) {
@@ -70,7 +70,7 @@ export default function LogIn() {
         <label htmlFor="">Password</label>
         <input type="text" name="password" onChange={(e) => handleInput(e)} />
       </div>
-      {error && <span className={styles.error}>somthing going wrong</span>}
+      {error && <span className={styles.error}>{error}</span>}
       <div className={styles.actions}>
         <button>
           <span>log in</span>

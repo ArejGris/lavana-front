@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 async function getData(cat) {
   const res = await fetch('http://localhost:5000/admin/get-category/'+cat,{mode:"no-cors"});
   
@@ -22,6 +24,7 @@ const OneCat = async (context) => {
           <h1>{product.keyWord}</h1>
           <p>{product.description}</p>
           <h5>{product.size}</h5>
+          <Link href={`/user/allProducts/${product.id}`}>visit page</Link>
         </>
       ))}
     </>

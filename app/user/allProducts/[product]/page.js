@@ -1,10 +1,14 @@
 'use client'
-import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import useSWR from 'swr';
+
 const Product = (context) => {
   const [productItem,setProductItem]=useState(null)
   const [images,setImages]=useState([])
+  const [userId,setUserId]=useState(null)
+  const route=useRouter()
+  const comment=useRef()
     const { product } = context.params;
     useEffect(()=>{
         getProduct()
@@ -15,7 +19,35 @@ const Product = (context) => {
       setProductItem(data.product)
       console.log(data.product)
     }
-   
+    useEffect(()=>{
+      fetch('http://localhost:3000/api/userId').then(res=>res.json()).then(data=>{
+       console.log(data)
+       if(data.userId){
+       setUserId(data.userId)
+       console.log(data.userId,"userid")
+
+   }
+      })
+   },[]) 
+   async function sendComment(e){
+   e.preventDefault()
+   if(!userId){
+    route.push('/user/login')
+  }
+    const comment1=comment.current.value
+   console.log(comment1,userId)
+    
+    const res=await fetch('http://localhost:5000/user/comment-product/'+product,{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        productId:parseInt(product),
+        userId,
+        comment:comment1})
+    })
+    const data=await res.json()
+    console.log(data)
+   }
     return ( <>{productItem&&<>
     <h1>{productItem.keyWord}</h1>
     <p>{productItem.description}</p>
@@ -30,6 +62,14 @@ const Product = (context) => {
    {images&&images.map(img=> <SwiperSlide><img src={img} alt="img" /></SwiperSlide>) }
       ...
     </Swiper>  
+    <form onSubmit={sendComment}>
+      <div className="form-group">
+        <label htmlFor="">comment</label>
+        <input type="text" ref={comment}/>
+      </div>
+     <button>add comment</button>
+
+    </form>
     </> );
 }
  

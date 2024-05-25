@@ -6,7 +6,7 @@ const AdminNavbar = () => {
              <ul>
         <li><Link href="/admin/addCategory">add Categorys</Link></li>
         <li><Link href="/admin/addProduct">add Products</Link></li>
-        <li><Link href="/admin/log-in">log in </Link></li>
+        <li><Link href="/admin/sign-in">log in </Link></li>
     </ul>
     </div>);
 }

@@ -2,7 +2,9 @@
 import { useEffect, useRef ,useState} from "react";
 import {ref,uploadBytesResumable,getDownloadURL} from 'firebase/storage'
 import  {storage}  from "@/fiebaseStore";
+import { useSession } from "next-auth/react";
 const AddProduct = () => {
+    const { data: session, status } = useSession();
     const title=useRef(null)
     const description=useRef(null)
     const size=useRef(null)

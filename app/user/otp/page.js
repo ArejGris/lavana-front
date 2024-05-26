@@ -20,6 +20,7 @@ const Otp = () => {
   const [loading, setLoading] = useState(false);
   const [showOTP, setShowOTP] = useState(false);
   const [user, setUser] = useState(null);
+  const [error,setError]=useState(null)
   const user1=useSelector((state)=>state.order.user)
   const route=useRouter()
   function onCaptchVerify(){
@@ -80,24 +81,25 @@ if(res.user){
     .then((data) => {
       console.log(data);
       if (data.status === 200) {
+        
+        setUser(res.user)
+        setLoading(false)
         route.push('/user')
       } else {
-        const form = e.target;
-        form.reset();
         setError(data.message);
       }
     });
 }
-setUser(res.user)
-setLoading(false)
 }).catch((err)=>{
   console.log(err);
   setLoading(false)
+  setError(err.message)
 })
   }
   return (
     <section className={classes.otp}>
         <Toaster toastOptions={{duration:4000}}/>
+        {error&&<>there was un error please confirm it again</>}
         <div id="recaptcha-container"> </div>
       {user ? (
         <h2>login success</h2>

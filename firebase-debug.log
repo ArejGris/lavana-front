@@ -171,3 +171,27 @@ You're about to initialize a Firebase project in this directory:
     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
 [error] 
 [error] Error: Failed to list Firebase projects. See firebase-debug.log for more info.
+[debug] [2024-05-25T16:25:27.922Z] ----------------------------------------------------------------------
+[debug] [2024-05-25T16:25:27.929Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\ASUS\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2024-05-25T16:25:27.930Z] CLI Version:   12.5.4
+[debug] [2024-05-25T16:25:27.931Z] Platform:      win32
+[debug] [2024-05-25T16:25:27.931Z] Node Version:  v20.11.0
+[debug] [2024-05-25T16:25:27.932Z] Time:          Sat May 25 2024 19:25:27 GMT+0300 (غرينتش+٠٣:٠٠)
+[debug] [2024-05-25T16:25:27.932Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-05-25T16:25:27.941Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2024-05-25T16:25:28.056Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-05-25T16:25:28.057Z] > authorizing via signed-in user (mairygris1234@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\ASUS\Desktop\lavana2\frontend
+
+[debug] [2024-05-25T16:25:29.548Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2024-05-25T16:25:29.550Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}

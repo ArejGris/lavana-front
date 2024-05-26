@@ -1,4 +1,5 @@
 'use client'
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -38,28 +39,13 @@ const MakeOrder = () => {
         const data=await res.json()
         console.log(data)
     }
-    async function registerOrder(){
-        const order={
-            userId:userId,orderItems:items
-        }
-        const res=await fetch('http://localhost:5000/user/register-order',{
-            method:"POST",
-            headers:{
-                'Content-Type':'application/json'
-            },
-            body:JSON.stringify(order),
-            mode:"cors"
-        })
-        const data =await res.json()
-        console.log(data)
-    }
+   
     return ( 
     <>
     {
        items&& items.map(item=>(<>{item.product}{item.quentity}{item.price}</>))
     }
     <button onClick={sendOrder}>send order</button>
-    {isPaid&&<button onClick={registerOrder}>register order</button>}
     </> );
 }
  

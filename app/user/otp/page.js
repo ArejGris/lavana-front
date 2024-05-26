@@ -3,25 +3,29 @@ import classes from "./otp.module.css";
 import { BsFillShieldLockFill } from "react-icons/bs";
 import { BsTelephoneFill } from "react-icons/bs";
 import { CgSpinner } from "react-icons/cg";
-import OtpInput from "otp-input-react";
+import OTPInput from "otp-input-react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./otp_style.css";
-import { auth } from "@/firebase.config";
+import auth from "@/firebase.config";
 import {RecaptchaVerifier,signInWithPhoneNumber} from 'firebase/auth'
 import Toaster from "react-hot-toast"
 import {toast} from "react-hot-toast"
+import { useDispatch,useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
 const Otp = () => {
   const [otp, setOtp] = useState("");
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
   const [showOTP, setShowOTP] = useState(false);
   const [user, setUser] = useState(null);
+  const user1=useSelector((state)=>state.order.user)
+  const route=useRouter()
   function onCaptchVerify(){
    if(!window.recaptchaVerifier){
         window.recaptchaVerifier=new RecaptchaVerifier(auth, 'recaptcha-container',{
-            'size':'invisible',
+            'size':'visible',
             'callback':(response)=>{
               onSignup()
             },
@@ -31,13 +35,25 @@ const Otp = () => {
         })
     }
   }
+ useEffect(()=>{
+
+ },[])
   function onSignup(){
     setLoading(true)
-    onCaptchVerify()
-    const appVerifier=window.recaptchaVerifier
-    const formatPh= "+971547809856"
-    signInWithPhoneNumber(auth, formatPh, appVerifier)
+    //onCaptchVerify()
+    console.log(auth)
+   const appVerifier=new RecaptchaVerifier(auth, 'recaptcha-container',{
+      'size':'invisible',
+      'callback':(response)=>{
+      },
+      'expired-callback':()=>{
+
+      }
+  })
+    const formatPh= '+'+phone
+    signInWithPhoneNumber(auth,formatPh, appVerifier)
     .then((confirmationResult) => {
+      console.log(confirmationResult.verificationId)
       window.confirmationResult = confirmationResult;
       setLoading(false)
       setShowOTP(true)
@@ -52,9 +68,29 @@ const Otp = () => {
 setLoading(true)
 window.confirmationResult.confirm(otp).then(async(res)=>{
 console.log(res)
+if(res.user){
+  fetch("http://localhost:5000/user/confirm", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(user1),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      if (data.status === 200) {
+        route.push('/user')
+      } else {
+        const form = e.target;
+        form.reset();
+        setError(data.message);
+      }
+    });
+}
 setUser(res.user)
 setLoading(false)
-}).className((err)=>{
+}).catch((err)=>{
   console.log(err);
   setLoading(false)
 })
@@ -79,14 +115,14 @@ setLoading(false)
               <label htmlFor="" className={classes.lbl}>
                 Enter your OTP
               </label>
-              <OtpInput
+              <OTPInput
                 value={otp}
                 onChange={setOtp}
                 OTPLength={6}
                 otpType="number"
                 disabled={false}
                 autoFocus
-              ></OtpInput>
+              ></OTPInput>
               <button className={classes.btn} onClick={onOTPVerify}>
                 <span>verify OTP</span>
                 {loading && <CgSpinner size={20} class="animate-spin" />}

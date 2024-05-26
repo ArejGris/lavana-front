@@ -6,12 +6,14 @@ import { CgSpinner } from "react-icons/cg";
 import Link from "next/link";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/lib/features/orderSlice";
 export default function SignIn() {
-  const [info, setInfo] = useState({ firstname: "",lastname:"",location:"",city:"",tower:"",phoneNumber:"",birthDate:new Date(),gender:"male", email: "", password: "" });
+  const [info, setInfo] = useState({ firstname: "",lastname:"",location:"",city:"",towen:"",phoneNumber:"",birthDate:new Date(),gender:"male", email: "", password: "" });
   const [error, setError] = useState("");
   const [pending, setPending] = useState("");
   const route = useRouter();
-
+const dispatch=useDispatch()
   function handleInput(e) {
     setInfo((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
@@ -27,29 +29,28 @@ export default function SignIn() {
     console.log(info)
     try {
       setPending(true);
-      fetch("/api/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(info),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-          if (data.status === 201) {
-            const form = e.target;
-            form.reset();
-            setPending(false);
-
-            route.push("/");
-          } else {
-            const form = e.target;
-            form.reset();
-            setError(data.message);
-          }
-        });
-    } catch (error) {
+      fetch("http://localhost:5000/sign", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(info),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      if (data.status === 200) {
+        
+    dispatch(setUser(info))
+    route.push('/user/otp')
+      } else {
+        const form = e.target;
+        form.reset();
+        setError(data.message);
+      }
+    });
+    
+      } catch (error) {
       console.log(error);
       setError(error);
       setPending(false);
@@ -83,8 +84,8 @@ export default function SignIn() {
         <input type="text" name="city" onChange={(e) => handleInput(e)} />
       </div>
       <div className={styles.form_group}>
-        <label htmlFor="">tower</label>
-        <input type="text" name="tower" onChange={(e) => handleInput(e)} />
+        <label htmlFor="">towen</label>
+        <input type="text" name="towen" onChange={(e) => handleInput(e)} />
       </div>
       <div className={styles.form_group}>
         <label htmlFor="">Date of brith</label>

@@ -29,14 +29,17 @@ const data=await verfiytoken()
 async function verfiytoken(){
   const token= cookies().get("token")
  //  why you havn't verifty token?
+ if(token){
 const res=await fetch("http:localhost:5000/admin/token",{
  method:"POST",
  headers:{
-   
    'Authorization':'Bearer '+token.value
  },
  mode:"cors"
 })
 const data=await res.json()
 return data
+}else{
+  return {status:403}
+}
 }

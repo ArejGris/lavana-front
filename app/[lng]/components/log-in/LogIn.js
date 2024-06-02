@@ -10,7 +10,6 @@ export default function LogIn() {
   const [error, setError] = useState("");
   const [pending, setPending] = useState("");
   const [notification, setNotification] = useState("");
-const {data:session}=useSession()
   const route = useRouter();
 
   function handleInput(e) {
@@ -61,9 +60,7 @@ const {data:session}=useSession()
     }
   }
   console.log(info);
-  return <>{session?.user ? <>
-      <button onClick={signOut}>log out</button>
-      </>:
+  return <>
     <form className={styles.form} onSubmit={handleSubmit}>
         
       {notification && <span className={styles.success}>{notification}</span>}
@@ -87,6 +84,6 @@ const {data:session}=useSession()
         </button>
         <Link href="/user/sign-up">sign up</Link>
       </div>
-    </form>}</>
+    </form></>
   ;
 }

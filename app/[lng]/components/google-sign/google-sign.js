@@ -1,8 +1,8 @@
 'use client'
 import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 import { useEffect, useState } from "react";
+
      export default function LoginByGoogle(){
-        const { data: session } = useSession();
         const [providers, setProviders] = useState(null);
   
         useEffect(() => {
@@ -18,10 +18,6 @@ import { useEffect, useState } from "react";
         }, []);
       
         return(<>
-         {session?.user ?
-            (<div className="google">
-                <button onClick={()=> signOut()}>sign out</button>
-            </div>):
         <div className="sign">
        {providers &&
             
@@ -31,7 +27,7 @@ import { useEffect, useState } from "react";
               </button>
             }
             </div>
-          }
+          
         </>
           
       

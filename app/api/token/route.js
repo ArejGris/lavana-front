@@ -1,6 +1,7 @@
 import { cookies } from "next/headers"
 import { NextResponse } from "next/server"
-export async function GET(req){
+/* export async function GET(req){
+  //verfiy token
 const token=cookies().get("token")
 const res=await fetch("http://localhost:5000/user/token",{
     method:"POST",
@@ -23,4 +24,10 @@ return NextResponse.json(
 
 
 
+} */
+export  function GET(req){
+cookies().delete("token")
+const token=cookies().get("token")
+console.log("token delete",token)
+return NextResponse.json({status:200})
 }

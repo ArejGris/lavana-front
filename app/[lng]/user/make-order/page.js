@@ -7,16 +7,12 @@ import { useSelector } from "react-redux";
 const MakeOrder = () => {
   const route = useRouter();
   const [userId, setUserId] = useState();
-  const [productorder, setProductorder] = useState([]);
+  const [productorder, setProductorder] = useState(null);
   const [isPaid, setIsPaid] = useState(false);
 
   const { data: session } = useSession();
   const items = useSelector((state) => state.order.items);
-  async function getToken() {
-    const res = await fetch("/api/token");
-    const data = await res.json();
-    console.log(data, "data");
-  }
+
   function getUserId() {
     fetch("/api/userId")
       .then((res) => res.json())
@@ -51,15 +47,14 @@ const MakeOrder = () => {
           };
         });
         console.log(viewedProducts, "viewedProducts");
-        return viewedProducts;
+        setProductorder(viewedProducts)
       }
     }
     return [];
   }
   useEffect(() => {
     getUserId();
-    const products = itemsfetch();
-    setProductorder(products);
+    itemsfetch();
   }, []);
   async function sendOrder() {
     console.log(items);
@@ -83,7 +78,7 @@ const MakeOrder = () => {
 
   return (
     <>
-      {productorder.length > 0 &&
+      {productorder &&
         productorder.map((item) => (
           <div key={item.title}>
             <h1>{item.title}</h1>

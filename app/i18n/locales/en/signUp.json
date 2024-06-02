@@ -1,0 +1,15 @@
+{
+    "firstname":"firstname",
+    "lastname":"lastname",
+    "phone":"phone number",
+    "email":"email",
+    "password":"password",
+    "birthday":"birthday",
+    "location":"location",
+    "city":"city",
+    "town":"town",
+    "gender":"gender",
+    "login":"login",
+    "signup":"signup"
+
+}

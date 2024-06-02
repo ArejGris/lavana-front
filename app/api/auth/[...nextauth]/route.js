@@ -45,7 +45,6 @@ const handler = NextAuth({
             accessToken:data.token
           };
         } else {
-          console.log("hhhhhhh")
           const res = await fetch("http://localhost:5000/user/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -93,6 +92,8 @@ const handler = NextAuth({
        if(data.status===200){
          user=data.user
         cookies().set("userId",data.user.id)
+        console.log(data,"all data")
+        account.access_token=data.token
         return true
        }
       }else{
@@ -102,13 +103,12 @@ const handler = NextAuth({
     },
     
     async jwt(params) {
-      console.log(params,"params jwt ath")
       if(params.account?.provider==="google") {// provider is google
         const id=cookies().get("userId")
-        console.log(params?.user,"user jwt")
         params.token.id=id.value||null
         params.token.accessToken=params.account?.access_token
         params.token.role="user"
+      console.log(params,"params jwt ath")
       }
       else{
         if (params.user?.id) {

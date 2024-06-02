@@ -15,7 +15,7 @@ const Product = (context) => {
     const {data:session}=useSession()
     useEffect(()=>{
         getProduct()
-        getReviews()
+        //getReviews()
     },[])
    async function getProduct(){
       const res=await fetch('http://localhost:5000/admin/get-product/'+product)

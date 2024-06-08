@@ -15,14 +15,15 @@ import {toast} from "react-hot-toast"
 import { useDispatch,useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { useCookies } from "react-cookie";
 const Otp = () => {
   const [otp, setOtp] = useState("");
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
   const [showOTP, setShowOTP] = useState(false);
   const [user, setUser] = useState(null);
-  const [userId, setUserId] = useState(null);
   const [error,setError]=useState(null)
+  const [token,setToken,removeToken]=useCookies(['token'])
  // const user1=useSelector((state)=>state.order.user)
  const {data:session}=useSession()
   const route=useRouter()
@@ -40,9 +41,7 @@ const Otp = () => {
     }
   }
  useEffect(()=>{
-fetch('/api/userId').then(res=>res.json()).then(data=>{
-  setUserId(data.userId)
-})
+
 if(session){
 console.log(session?.user,"session.user")}
  },[])
@@ -73,6 +72,7 @@ console.log(session?.user,"session.user")}
 
   }
   function onOTPVerify(){
+const tokenv=token.token
 setLoading(true)
 window.confirmationResult.confirm(otp).then(async(res)=>{
 console.log(res)
@@ -81,8 +81,9 @@ if(res.user){
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
+       "Authorization":'Bearer '+tokenv
     },
-    body: JSON.stringify({userId,phone}),
+    body: JSON.stringify({phone}),
   })
     .then((res) => res.json())
     .then((data) => {

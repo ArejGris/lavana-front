@@ -8,13 +8,16 @@ const Navbar = ({lng}) => {
     const {t}=useTranslation(lng,'navbar')
     function handlesignout(){
       signOut()
-      fetch('/api/token')
+      fetch('/api/token',{
+        method:'DELETE'
+      })
     }
     return ( <div className="navbar">
     <ul>
+      <li>{session?.user.name}</li>
       <li><Link href={`/${lng}/user/allCategorys`}>{t("all_Categories")}</Link></li>
       <li><Link href={`/${lng}/user/allProducts`}>{t("all_products")}</Link></li>
-      <li>{session?.user ? <button onClick={handlesignout}>logout</button>:<Link href={`/${lng}/user/log-in`}>{t("log_in")}</Link>}</li>
+      <li>{session?.accessToken ? <button onClick={handlesignout}>logout</button>:<Link href={`/${lng}/user/log-in`}>{t("log_in")}</Link>}</li>
       <li><Link href={`/${lng}/user/make-order`}>{t("make_order")}</Link></li>
       <li><Link href={`/${lng}/user/sign-up`}>{t("sign_up")}</Link></li>
     </ul>

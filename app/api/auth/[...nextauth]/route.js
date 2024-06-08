@@ -2,6 +2,8 @@ import { cookies } from "next/headers";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
+import dynamic from "next/dynamic";
+
 const handler = NextAuth({
   session: {
     strategy: "jwt",
@@ -42,7 +44,7 @@ const handler = NextAuth({
             name: admin.email,
             email: admin.email,
             role: "admin",
-            accessToken:data.token
+            accessToken: data.token,
           };
         } else {
           const res = await fetch("http://localhost:5000/user/login", {
@@ -56,21 +58,20 @@ const handler = NextAuth({
           });
           const data = await res.json();
           if (data.status !== 200 || !data.user) {
-            throw new Error("not authorized");
+            throw new Error(data.msg);
+            
           }
-          console.log(data.user);
+          console.log(data);
           const user = data.user;
-          cookies().set("userId",user.id)
           return {
             id: user.id,
-            name: user.email,
+            name: user.firstName+"  "+user.lastName,
             email: user.email,
             role: "user",
-            accessToken:data.token
+            accessToken: data.token,
           };
         }
       },
-     
     }),
     GoogleProvider({
       name: "google",
@@ -79,62 +80,72 @@ const handler = NextAuth({
     }),
   ],
   callbacks: {
-    async signIn({ account, profile ,user,token}) {
+    async signIn({ account, profile, user, token }) {
       if (account.provider === "google") {
-       console.log(profile,"profile google")
-     const res= await fetch('http://localhost:5000/user/signingoogle',{
-        method:"POST",
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({email:profile.email,firstName:profile.given_name,lastName:profile.family_name}),
-        mode:"cors"
-       })
-       const data=await res.json()
-       if(data.status===200){
-         user=data.user
-        cookies().set("userId",data.user.id)
-        console.log(data,"all data")
-        account.access_token=data.token
-        return true
-       }
-      }else{
-        
-      return true
-    }
-    },
-    
-    async jwt(params) {
-      if(params.account?.provider==="google") {// provider is google
-        const id=cookies().get("userId")
-        params.token.id=id.value||null
-        params.token.accessToken=params.account?.access_token
-        params.token.role="user"
-      console.log(params,"params jwt ath")
+        console.log(profile, "profile google");
+        const res = await fetch("http://localhost:5000/user/signingoogle", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: profile.email,
+            firstName: profile.given_name,
+            lastName: profile.family_name,
+          }),
+          mode: "cors",
+        });
+        const data = await res.json();
+        if (data.status === 200) {
+          user = data.user;
+            
+          console.log(data, "all data");
+          account.access_token = data.token;
+          return true;
+        }
+      } else {
+        console.log(user,"user")
+        return true;
       }
-      else{
+    },
+
+    async jwt(params) {
+      console.log(params,"params")
+      if (params.account?.provider === "google") {
+        // provider is google
+        const id = cookies().get("userId");
+        params.token.id = id.value || null;
+        params.token.accessToken = params.account?.access_token;
+        params.token.role = "user";
+        params.token.name=params.profile.name
+        console.log(params, "params jwt ath");
+      } else {
         if (params.user?.id) {
           params.token.id = params.user.id;
-          params.token.name = params.user.email;
+          params.token.name = params.user.name;
           params.token.role = params.user.role;
-  
+        } 
+        console.log(params.user, "params user");
+        if (params.user?.accessToken) {
+          
+          params.token.accessToken = params.user.accessToken;
         }
-    console.log(params?.user,"params user")
-      if(params.user?.accessToken){
-        params.token.accessToken=params.user.accessToken
       }
-    }
-      cookies().set("token",params.token.accessToken)
+      
+      
+      cookies().set("token", params.token.accessToken);
+
       return params.token;
     },
-    async session({session,token}) {
-    if (session.user) {
-        session.user.id =token.id;
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.id = token.id;
         session.user.name = token.name;
         session.role = token.role;
       }
-      if(token?.accessToken){
-        session.accessToken=token.accessToken
-      } 
-      console.log(session,"my session")
+      if (token?.accessToken) {
+        
+        session.accessToken = token.accessToken;
+      }
+      console.log(session, "my session");
       return session;
     },
   },

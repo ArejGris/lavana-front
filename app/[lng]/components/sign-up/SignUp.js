@@ -9,7 +9,10 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/lib/features/orderSlice";
 import { useTranslation } from "@/app/i18n/client";
+import { signIn } from "next-auth/react";
+import { useCookies } from "react-cookie";
 export default function SignUp({lng}) {
+ const [token,setToken] =useCookies(['token'])
   const {t}=useTranslation(lng,"signUp")
   const [info, setInfo] = useState({ firstname: "",lastname:"",location:"",city:"",towen:"",phoneNumber:"",birthDate:new Date(),gender:"male", email: "", password: "" });
   const [error, setError] = useState("");
@@ -41,10 +44,27 @@ const dispatch=useDispatch()
     .then((res) => res.json())
     .then((data) => {
       console.log(data);
-      if (data.status === 200) {
+      if (data.status === 200&&data.user) {
+      /*   signIn("credentials",{
+          email:data.user.email,
+          password:data.user.password,
+          callbackUrl:"/en/user/otp"
+        }) */
+        setToken('token',data.token,{maxAge:30})
+         fetch('http://localhost:5000/user/refresh-token',{
+          method:"POST",
+          headers:{
+            'Authorization':'Bearer '+data.token
+          },
+          mode:'cors'
+        }).then(res2=>res2.json()).then(data2=>{
         
-    //dispatch(setUser(info))
+        console.log(data2,"my refresh data")
+        if(typeof window !=="undefined"){
+          localStorage.setItem('refreshToken',data2.token)
+        }
     route.push('/en/user/otp')
+  })
       } else {
         const form = e.target;
         form.reset();
@@ -120,7 +140,7 @@ const dispatch=useDispatch()
       <div className={styles.actions}>
         <button>
           <span>sign up</span>
-          {pending && <CgSpinner size={20} class="animate-spin" />}
+          {pending && <CgSpinner size={20} className="animate-spin" />}
         </button>
         <Link href="/user/log-in" >log in</Link>
       </div>

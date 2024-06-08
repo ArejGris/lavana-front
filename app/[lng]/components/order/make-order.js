@@ -4,16 +4,22 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import useRequest from "@/hooks/useRequest";
 const MakeOrder = () => {
   const route = useRouter();
+  const [userId, setUserId] = useState();
   const [productorder, setProductorder] = useState(null);
   const [isPaid, setIsPaid] = useState(false);
-const {send}=useRequest()
+
   const { data: session } = useSession();
   const items = useSelector((state) => state.order.items);
 
-
+  function getUserId() {
+    fetch("/api/userId")
+      .then((res) => res.json())
+      .then((data) => {
+        setUserId(data.userId);
+      });
+  }
   async function itemsfetch() {
     const itemsProductIds = items.map((item) => item.productId);
     const res = await fetch("http://localhost:5000/admin/get-order-products", {
@@ -47,14 +53,29 @@ const {send}=useRequest()
     return [];
   }
   useEffect(() => {
+    getUserId();
     itemsfetch();
   }, []);
   async function sendOrder() {
     console.log(items);
     const order = {
+      userId:session?.user?.id,
       orderItems: items,
     };
-await send('http://localhost:5000/user/make-order',order)
+    console.log(order, session?.accessToken);
+  /*  const res=await fetch('/api/sendOrder',{
+    method:"POST",
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({order})
+   })
+   const data=await res.json()
+   console.log(data) */
+await fetch('/api/sendOrder',{
+    method:"POST",
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({order})
+  })
+
   }
 
   return (

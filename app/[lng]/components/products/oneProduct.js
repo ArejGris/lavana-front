@@ -30,7 +30,9 @@ const OneProduct = ({product}) => {
          const oneItem= items.filter(item=>item.productId==product.id)
          if(oneItem.length>0){
          const t=oneItem[0].quentity
-      setCounter(t)}}
+      setCounter(t)}}else{
+        setCounter(0)
+      }
     },[items])
     return ( <div className="one-product">
               <h1>{product.keyWord}</h1>

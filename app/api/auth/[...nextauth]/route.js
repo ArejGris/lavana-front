@@ -2,8 +2,7 @@ import { cookies } from "next/headers";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
-import dynamic from "next/dynamic";
-
+let v=0;
 const handler = NextAuth({
   session: {
     strategy: "jwt",
@@ -145,7 +144,7 @@ const handler = NextAuth({
         
         session.accessToken = token.accessToken;
       }
-      console.log(session, "my session");
+      console.log(session, "my session",v++);
       return session;
     },
   },

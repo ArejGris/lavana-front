@@ -10,9 +10,9 @@ import { useDispatch } from "react-redux";
 import { setUser } from "@/lib/features/orderSlice";
 import { useTranslation } from "@/app/i18n/client";
 import { signIn } from "next-auth/react";
-import { useCookies } from "react-cookie";
+import cookies from "react-cookies";
 export default function SignUp({lng}) {
- const [token,setToken] =useCookies(['token'])
+ //const [token,setToken] =useCookies(['token2'])
   const {t}=useTranslation(lng,"signUp")
   const [info, setInfo] = useState({ firstname: "",lastname:"",location:"",city:"",towen:"",phoneNumber:"",birthDate:new Date(),gender:"male", email: "", password: "" });
   const [error, setError] = useState("");
@@ -50,7 +50,11 @@ const dispatch=useDispatch()
           password:data.user.password,
           callbackUrl:"/en/user/otp"
         }) */
-        setToken('token',data.token,{maxAge:30})
+       // setToken('token2',data.token,{maxAge:30})
+   
+       const expires = new Date();
+       expires.setDate(expires.getDate() + 30);
+      cookies.save('token2',data.token,{expires})
          fetch('http://localhost:5000/user/refresh-token',{
           method:"POST",
           headers:{

@@ -14,8 +14,8 @@ const Products = ({ products, lng }) => {
     <div className="products">
       {products &&
         products.map((product) => (
-          <>
-            <OneProduct key={product.id} product={product} />
+          <div key={product.id}>
+            <OneProduct  product={product} />
             <Link href={`/${lng}/user/allProducts/${product.id}`}>
               visit page
             </Link>
@@ -24,7 +24,7 @@ const Products = ({ products, lng }) => {
                 update product
               </Link>
             )}
-          </>
+          </div>
         ))}
     </div>
   );

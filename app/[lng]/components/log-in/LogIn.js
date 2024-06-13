@@ -5,13 +5,13 @@ import { useRouter } from "next/navigation";
 import { CgSpinner } from "react-icons/cg";
 import Link from "next/link";
 import { getSession, signIn, signOut, useSession } from "next-auth/react";
-import { Cookies, useCookies } from "react-cookie";
+import cookies from 'react-cookies';
 export default function LogIn() {
   const [info, setInfo] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const [pending, setPending] = useState("");
   const [notification, setNotification] = useState("");
-  const [tokencookie,setTokencookie]=useCookies(['token'])
+ // const [tokencookie,setTokencookie]=useCookies(['token2'])
   const route = useRouter();
 const {data:session}=useSession()
 
@@ -36,8 +36,10 @@ const {data:session}=useSession()
         const session = await getSession();
         const token=session?.accessToken
         console.log(token,"token")
+        const expires = new Date();
+        expires.setDate(expires.getDate() + 30);
     
-      //  setTokencookie('token',token,{maxAge:30})
+     cookies.save('token2',token,{expires})
        
        const res=await fetch('http://localhost:5000/user/refresh-token',{
           method:"POST",

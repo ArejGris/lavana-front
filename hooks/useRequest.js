@@ -1,14 +1,15 @@
 'use client'
-import { useCookies } from "react-cookie";
+import cookies from "react-cookies";
 export default function useRequest(){
-  const [token,setToken]=useCookies(['token'])
+ // const [token,setToken]=useCookies(['token2'])
 
  async function send(url,bodydata){
-    const data= await sendReq(url,bodydata)
+  const tokenv=cookies.load('token2')
+    const data= await sendReq(url,bodydata,tokenv)
         console.log(data);
         if(data.status===300){
-          await getRefreshToken()
-      const data2= await sendReq(url,bodydata)
+        const datal=  await getRefreshToken()
+      const data2= await sendReq(url,bodydata,datal.token)
         return data2
         }else{
           console.log(data)
@@ -34,26 +35,32 @@ async function getRefreshToken(){
     console.log(res,"res")
     const data=await res.json()
     console.log(data,"from refresh token....")
-    setToken('token',data.token,{maxAge:30})
+    //setToken('token2',data.token,{maxAge:30})
+    const expires = new Date();
+    expires.setDate(expires.getDate() + 30);
+
+ cookies.save('token2',data.token,{expires})
     if(typeof window !=="undefined"){
         localStorage.setItem('refreshToken',data.refreshToken)
     }
+    return data
   }
   
-  async function sendReq(url ,data){
-    const tokenv=token.token
-  
+  async function sendReq(url ,data,token){
+ 
+  console.log("heloo")
     const res = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "Bearer " + tokenv,
+        "Authorization": "Bearer " + token,
       },
       body: JSON.stringify(data),
       mode: "cors",
     });
     
     const data2=await res.json()
+    console.log(data2,"data2")
     return data2
   }  
   return {send}

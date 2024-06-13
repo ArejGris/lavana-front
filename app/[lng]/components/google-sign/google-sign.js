@@ -2,20 +2,23 @@
 import { signIn, signOut, useSession, getProviders, getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
+import cookies from "react-cookies";
 
      export default function LoginByGoogle(){
       const route=useRouter()
         const [providers, setProviders] = useState(null);
-        const [tokencookie,setTokencookie]=useCookies(['token'])
+        //const [tokencookie,setTokencookie]=useCookies(['token2'])
         async  function handlesign(){
           await signIn('google',{redirect:false})
          const session=await getSession()
          const token=session?.accessToken
-         console.log(token,"token")
+         console.log(token,"token2")
          try {
-           
-      //   setTokencookie('token',token,{maxAge:30})
+          console.log(token,"token")
+          const expires = new Date();
+          expires.setDate(expires.getDate() + 30);
+      
+       cookies.save('token2',token,{expires})
          } catch (error) {
            console.log(error)
          }

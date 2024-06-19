@@ -1,7 +1,8 @@
 
 import Provider from "@/utils/Provider";
 import "./globals.css";
-
+import 'bootstrap-icons/font/bootstrap-icons.css'
+import '@nextui-org/tabs'
 export const metadata = {
   title: "lavana",
   description: "lavana store",

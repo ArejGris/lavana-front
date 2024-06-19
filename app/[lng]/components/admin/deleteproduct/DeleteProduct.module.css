@@ -1,0 +1,74 @@
+.background {
+    background-color: rgba(0, 0, 0, 0.612);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: -1;
+  }
+  .delete {
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .DeleteProduct {
+    z-index: 100;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: rgb(38 46 67);
+    width: 60%;
+    height: fit-content;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    overflow-y: auto;
+    scrollbar-width: thin;
+  }
+  .formGroup{
+    
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  padding: 10px;
+  }
+  .formGroup label{
+    color: white;
+  }
+  .actions{
+display: flex;
+justify-content: center;
+gap: 20px;
+  }
+  .btn{
+    padding: 10p 20px;
+    width: 15%;
+    height: 20px;
+    background-color: rgb(126, 76, 141);
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-weight: 700;
+    margin: auto;
+}
+.btn2{
+  padding: 10p 20px;
+  width: 15%;
+  height: 20px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  color: white;
+  font-weight: 700;
+  margin: auto;
+    background-color: red;
+}

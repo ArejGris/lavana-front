@@ -3,16 +3,17 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useSession } from 'next-auth/react';
+import useRequest from '@/hooks/useRequest';
 const Product = (context) => {
   const [productItem,setProductItem]=useState(null)
   const [images,setImages]=useState([])
   const [comments,setComments]=useState([])
-  const [userId,setUserId]=useState(null)
   const [review,setReview]=useState(null)
   const route=useRouter()
   const comment=useRef()
     const { product } = context.params;
     const {data:session}=useSession()
+    const {send}=useRequest()
     useEffect(()=>{
         getProduct()
         //getReviews()
@@ -30,19 +31,7 @@ const Product = (context) => {
      const data=await res.json()
      setReview(data.reviews)
     }
-    useEffect(()=>{
-      if(session?.user.role==="admin"){
-           setUserId(session?.user.id)
-      }
-      fetch('http://localhost:3000/api/userId').then(res=>res.json()).then(data=>{
-       console.log(data)
-       if(data.userId){
-       setUserId(data.userId)
-       console.log(data.userId,"userid")
-
-   }
-      })
-   },[]) 
+   
    async function getComment(){
    const res=await fetch('http://localhost:5000/user/get-comments/'+product)
    const data=await res.json()
@@ -54,38 +43,18 @@ const Product = (context) => {
    },[])
    async function sendComment(e){
    e.preventDefault()
-   if(!userId){
-    route.push('/user/login')
-  }
-    const comment1=comment.current.value
-   console.log(comment1,userId)
-    if(session?.user.role==="admin"){
-      const res=await fetch('http://localhost:5000/admin/comment-product/'+product,{
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({
-          productId:parseInt(product),
-          comment:comment1})
-      })
-      
-    const data=await res.json()
-    console.log(data)
-    const form=e.target
-    form.reset()
-    }
-    const res=await fetch('http://localhost:5000/user/comment-product/'+product,{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({
-        productId:parseInt(product),
-        userId,
-        comment:comment1})
-    })
-    const data=await res.json()
+   const comment1=comment.current.value
+ const data=await send('http://localhost:5000/user/comment-product/'+product,{comment:comment1})
     console.log(data)
     const form=e.target
     form.reset()
    }
+  async function addReview(e){
+    const review=e.target.value
+  const data=await send('http://localhost:5000/user/review-product/'+product,{val:review})
+    console.log(data)
+
+  }
     return ( <>{productItem&&<>
     <h1>{productItem.keyWord}</h1>
     <p>{productItem.description}</p>
@@ -114,6 +83,14 @@ const Product = (context) => {
         </>)
       }
      <button>add comment</button>
+     <select name="" id="" onChange={(e)=>addReview(e)}>
+      <option value={1}>1</option>
+      <option value={2}>2</option>
+      <option value={3}>3</option>
+      <option value={4}>4</option>
+      <option value={5}>5</option>
+
+       </select>
 
     </form>
     </> );

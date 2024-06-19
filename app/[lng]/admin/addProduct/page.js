@@ -5,7 +5,8 @@ import  {storage}  from "@/fiebaseStore";
 import { useSession } from "next-auth/react";
 import { useTranslation } from "@/app/i18n/client";
 import { Footer } from "../../components/Footer/client";
-const AddProduct = ({ params: { lng } }) => {
+import classes from './createproducte.module.css'
+const AddProduct = ({lng}) => {
     const {t}=useTranslation(lng,'addProduct')
     const title=useRef(null)
     const title2=useRef(null)
@@ -104,13 +105,16 @@ const AddProduct = ({ params: { lng } }) => {
         }
 
     }
-    return ( <>
-    <form onSubmit={send}>
-        <div className="form-group">
+    return ( <div className={classes.container}>
+    <div className={classes.background}></div>
+    <form onSubmit={send} className={classes.AddProduct}>
+        <h1>ADD Product</h1> <button onClick={()=>setIsModel(false)} className={classes.btnclose}><i className="bi bi-x-lg" style={{color:'white',fontWeight:'700'}}></i></button>
+   
+        <div className={classes.formGroup}>
             <label htmlFor="">{t('price')}</label>
             <input type="number" ref={price} />
         </div>
-        <div className="form-group">
+        <div className={classes.formGroup}>
             <label htmlFor="">{t('size')}</label>
             <select ref={size} >
                 <option value="xx-small">xx-small</option>
@@ -123,28 +127,28 @@ const AddProduct = ({ params: { lng } }) => {
             </select>
         </div>
        
-        <div className="form-group">
+        <div className={classes.formGroup}>
             <label htmlFor="">{t('title')}</label>
             <input type="text" ref={title} />
         </div>
-        <div className="form-group">
+        <div className={classes.formGroup}>
             <label htmlFor="">{t('title2')}</label>
             <input type="text" ref={title2} />
         </div>
-        <div className="form-group">
+        <div className={classes.formGroup}>
             <label htmlFor="">{t('description')}</label>
             <input type="text" ref={description} />
         </div>
-        <div className="form-group">
+        <div className={classes.formGroup}>
             <label htmlFor="">{t('description2')}</label>
             <input type="text" ref={description2} />
         </div>
-        <div className="form-group" id="images">
+        <div className={classes.formGroup} id="images">
             <label htmlFor="">{t('images')}</label>
             <input type="file" id="fileInput" name="files" accept="image/*"  onChange={(e)=>handleChange(e)} multiple />
             <progress value={progress} max="100"></progress>
         </div>
-        <div className="form-group">
+        <div className={classes.formGroup}>
             <label htmlFor="">{t('categories')}</label>
             <div type="text" >
               {category&&category.map((cat)=><>
@@ -153,11 +157,14 @@ const AddProduct = ({ params: { lng } }) => {
               </>)}
             </div>
         </div>
-        <button type="submit">{t('send')}</button>
+        <div className={classes.actions}>
+        <button type="submit" className={classes.btnsend}>{t('send')}</button>
+        <button className={classes.btn2} onClick={()=>setIsModel(false)}>cancel</button>
+        </div>
     </form>
     
     <Footer lng={lng}  path='/admin/addProduct'/>
-    </> );
+    </div> );
 }
  
 export default AddProduct;

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useTranslation } from '@/app/i18n/client';
 import './navbar.css'
 import { useSession ,signOut} from 'next-auth/react';
+import cookies from 'react-cookies'
 const Navbar = ({lng}) => {
   const {data:session}=useSession()
     const {t}=useTranslation(lng,'navbar')
@@ -11,6 +12,7 @@ const Navbar = ({lng}) => {
       fetch('/api/token',{
         method:'DELETE'
       })
+      cookies.remove('token2')
     }
     return ( <div className="navbar">
     <ul>

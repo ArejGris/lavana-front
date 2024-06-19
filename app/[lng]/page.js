@@ -10,6 +10,7 @@ export default async function Home({ params: { lng } }) {
     <>
     <Navbar lng={lng}/>
     <h1>{t('h1')}</h1>
+    <h1 className="font-bold underline">hello world</h1>
           <Footer lng={lng}/>
           </>
   );

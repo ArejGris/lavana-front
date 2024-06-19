@@ -9,7 +9,6 @@ import {
   increment,
   decrement,
   remove,
-  setOrderId,
 } from "@/lib/features/orderSlice";
 import useRequest from "@/hooks/useRequest";
 const MakeOrder = () => {
@@ -19,7 +18,6 @@ const MakeOrder = () => {
   const { send } = useRequest();
   const { data: session } = useSession();
   const items = useSelector((state) => state.order.items);
-  const id = useSelector((state) => state.order.orderId);
   const dispatch = useDispatch();
   async function itemsfetch() {
     if (items.length == 0) {
@@ -72,7 +70,6 @@ const MakeOrder = () => {
 
     const data = await send("http://localhost:5000/user/make-order", order);
     if (data.order) {
-      dispatch(setOrderId(data.order.id));
       setIssend(true);
       deleteO()
       setIssend(false);

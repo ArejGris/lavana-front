@@ -18,7 +18,7 @@ import cookies from "react-cookies";
           const expires = new Date();
           expires.setDate(expires.getDate() + 30);
       
-       cookies.save('token2',token,{expires})
+       cookies.save('token2',token,{expires,path:'/'})
          } catch (error) {
            console.log(error)
          }

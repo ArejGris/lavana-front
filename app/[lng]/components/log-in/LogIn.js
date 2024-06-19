@@ -34,12 +34,13 @@ const {data:session}=useSession()
         });
               // Retrieve session immediately after sign-in
         const session = await getSession();
+        if(session){
         const token=session?.accessToken
         console.log(token,"token")
         const expires = new Date();
         expires.setDate(expires.getDate() + 30);
     
-     cookies.save('token2',token,{expires})
+     cookies.save('token2',token,{expires,path:'/'})
        
        const res=await fetch('http://localhost:5000/user/refresh-token',{
           method:"POST",
@@ -55,7 +56,13 @@ const {data:session}=useSession()
         if(typeof window !=="undefined"){
           localStorage.setItem('refreshToken',data.token)
         }
-        route.push('/en/user')
+        setNotification("login successfully")
+        route.push('/en/user')}else{
+          setError("password or email not vaild")
+          setPending(false)
+          const form=e.target
+          form.reset()
+        }
       } catch (error) {
       console.log(error);
       setError("error occured");

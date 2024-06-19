@@ -1,4 +1,10 @@
-.admin{
-    height: 100%;
-    margin-top: 50px;
+ul li{
+    z-index: 1;
+}
+.header{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    
 }

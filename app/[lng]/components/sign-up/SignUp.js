@@ -54,7 +54,7 @@ const dispatch=useDispatch()
    
        const expires = new Date();
        expires.setDate(expires.getDate() + 30);
-      cookies.save('token2',data.token,{expires})
+      cookies.save('token2',data.token,{expires,path:'/'})
          fetch('http://localhost:5000/user/refresh-token',{
           method:"POST",
           headers:{

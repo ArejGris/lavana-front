@@ -4,16 +4,10 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import  {storage}  from "@/fiebaseStore";
 import SnapProduct from "@/app/[lng]/components/products/snapProduct";
 const UpdatPage = (context) => {
-  const [data, setData] = useState({
-    keyWord: "",
-    description: "",
-    size: "",
-    price: "",
-  });
-
-  const [images, setImages] = useState([]);
+  const [data, setData] = useState(null);
+ // const [images, setImages] = useState([]);
   const [category, setCategory] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState([]);
+ // const [selectedCategory, setSelectedCategory] = useState([]);
   const [progress2, setProgress2] = useState(0);
   const [oldproduct, setOldproduct] = useState(null);
   const [mode,setMode]=useState("")
@@ -29,7 +23,7 @@ const UpdatPage = (context) => {
     getCat();
   }, []);
   function handleAddImages(e) {
-    setImages(oldproduct.images);
+    //setImages(oldproduct.images);
     const inputfiles = document.getElementById("filenewInput");
     const files = inputfiles.files;
     console.log(files);
@@ -109,7 +103,10 @@ const UpdatPage = (context) => {
     );
     const data = await res.json();
     console.log(data)
-    setOldproduct(data.product);}
+    setOldproduct(data.product);
+    setData({...data.product})
+
+  }
     fetchData()
   }
  , []);

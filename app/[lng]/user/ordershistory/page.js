@@ -20,6 +20,7 @@ const OrderHistory = () => {
     if (id !== null) {
       const res = await fetch("http://localhost:5000/user/delete-order/" + id, {
         method: "DELETE",
+        headers:{'Authorization':'Bearer '+token},
         mode: "cors",
       });
       const data = await res.json();

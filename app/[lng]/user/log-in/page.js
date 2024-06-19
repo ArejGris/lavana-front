@@ -2,7 +2,7 @@
 import LogIn from "@/app/[lng]/components/log-in/LogIn"
 import LoginByGoogle from "../../components/google-sign/google-sign"
 import { signOut, useSession } from "next-auth/react"
-import cookies from "react-cookie"
+import cookies from "react-cookies"
 export default function Login(){
    //const [token,setToken,removeToken]=useCookies(['token'])
    const {data:session}=useSession()
@@ -12,6 +12,7 @@ export default function Login(){
       fetch('/api/token',{
          method:"DELETE"
       })
+      cookies.remove('token2')
    }
 return(session?.accessToken ?
    <>

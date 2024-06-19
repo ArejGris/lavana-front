@@ -1,0 +1,42 @@
+.page{
+    overflow-y: auto;
+}
+.list{
+   display: flex; 
+   gap: 20px;
+   justify-content: space-between;
+   border-bottom: 1px solid plum;
+   padding: 10px;
+}
+.list .actions{
+    display: flex;
+    gap: 15px;
+}
+.list .actions button{
+    cursor: pointer;
+    border-radius: 5px;
+}
+.form{
+    border: 1px solid gray;
+    border-radius: 5px;
+    display: flex;
+    padding: 5px 10px;
+    padding-left: 20px;
+    height: 30px;
+    width: 30%;
+    position: relative;
+}
+.form input{
+width: 100%;
+height: 100%;
+border: none;
+}
+.form i{
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.form input:focus{
+    outline: none;
+}

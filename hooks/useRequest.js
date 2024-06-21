@@ -4,7 +4,7 @@ export default function useRequest(){
  // const [token,setToken]=useCookies(['token2'])
 
  async function send(url,bodydata){
-  const tokenv=cookies.load('token2')
+  const tokenv=cookies.load('token')
     const data= await sendReq(url,bodydata,tokenv)
         console.log(data);
         if(data.status===300){
@@ -39,7 +39,7 @@ async function getRefreshToken(){
     const expires = new Date();
     expires.setDate(expires.getDate() + 30);
 
- cookies.save('token2',data.token,{expires})
+ cookies.save('token',data.token,{expires,path:'/'})
     if(typeof window !=="undefined"){
         localStorage.setItem('refreshToken',data.refreshToken)
     }

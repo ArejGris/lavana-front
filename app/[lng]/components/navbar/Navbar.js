@@ -6,13 +6,14 @@ import { useSession ,signOut} from 'next-auth/react';
 import cookies from 'react-cookies'
 const Navbar = ({lng}) => {
   const {data:session}=useSession()
+  const tokenv=cookies.load('token')
     const {t}=useTranslation(lng,'navbar')
     function handlesignout(){
-      signOut()
-      fetch('/api/token',{
+      signOut({redirect:false})
+     /*  fetch('/api/token',{
         method:'DELETE'
-      })
-      cookies.remove('token2')
+      }) */
+      cookies.remove('token',{path:'/'})
     }
     return ( <div className="navbar">
     <ul>

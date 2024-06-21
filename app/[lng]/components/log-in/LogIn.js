@@ -37,10 +37,11 @@ const {data:session}=useSession()
         if(session){
         const token=session?.accessToken
         console.log(token,"token")
+        /* 
         const expires = new Date();
         expires.setDate(expires.getDate() + 30);
     
-     cookies.save('token2',token,{expires,path:'/'})
+     cookies.save('token',token,{expires,path:'/'}) */
        
        const res=await fetch('http://localhost:5000/user/refresh-token',{
           method:"POST",
@@ -95,6 +96,7 @@ const {data:session}=useSession()
         </button>
         <Link href="/user/sign-up">sign up</Link>
       </div>
-    </form></>
+    </form>
+    </>
   ;
 }

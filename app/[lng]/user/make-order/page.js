@@ -111,7 +111,7 @@ const MakeOrder = () => {
         ))}
       
         <div>
-          {items.length > 0 ? (
+          {items ? (
             <>
               <button onClick={sendOrder}>send order</button>
               <button onClick={deleteO}>delete order</button>

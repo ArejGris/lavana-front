@@ -105,63 +105,68 @@ if(res.user){
 })
   }
   return (
-    <section className={classes.otp}>
-        <Toaster toastOptions={{duration:4000}}/>
-        {error&&<>there was un error please confirm it again</>}
-        <div id="recaptcha-container"> </div>
-      {user ? (
-        <h2>login success</h2>
+   <> <section className={classes.otp}>
+    <Toaster toastOptions={{duration:4000}}/>
+    {error&&<>there was un error please confirm it again</>}
+    <div id="recaptcha-container"> </div>
+  {user ? (
+    <h2>login success</h2>
+  ) : (
+    <div className={classes.container}>
+      {showOTP ? (
+        <div className={classes.container2}>
+          <h1>
+            Welcom to <br />
+            CODE A PROGRAM
+          </h1>
+          <div className={classes.icon}>
+            <BsFillShieldLockFill size={30} />
+          </div>
+          <label htmlFor="" className={classes.lbl}>
+            Enter your OTP
+          </label>
+          <OTPInput
+            value={otp}
+            onChange={setOtp}
+            OTPLength={6}
+            otpType="number"
+            disabled={false}
+            autoFocus
+          ></OTPInput>
+          <button className={classes.btn} onClick={onOTPVerify}>
+            <span>verify OTP</span>
+            {loading && <CgSpinner size={20} class="animate-spin" />}
+          </button>
+        </div>
       ) : (
-        <div className={classes.container}>
-          {showOTP ? (
-            <div className={classes.container2}>
-              <h1>
-                Welcom to <br />
-                CODE A PROGRAM
-              </h1>
-              <div className={classes.icon}>
-                <BsFillShieldLockFill size={30} />
-              </div>
-              <label htmlFor="" className={classes.lbl}>
-                Enter your OTP
-              </label>
-              <OTPInput
-                value={otp}
-                onChange={setOtp}
-                OTPLength={6}
-                otpType="number"
-                disabled={false}
-                autoFocus
-              ></OTPInput>
-              <button className={classes.btn} onClick={onOTPVerify}>
-                <span>verify OTP</span>
-                {loading && <CgSpinner size={20} class="animate-spin" />}
-              </button>
-            </div>
-          ) : (
-            <div className={classes.container2}>
-              <h1>
-                Welcom to <br />
-                CODE A PROGRAM
-              </h1>
-              <div className={classes.icon}>
-                <BsTelephoneFill size={30} />
-              </div>
-              <label htmlFor="" className={classes.lbl}>
-                Verify your phone number
-              </label>
-              <div>
-                <PhoneInput country={"sy"} value="phone" onChange={setPhone} />
-              </div>
-              <button className={classes.btn} onClick={onSignup}>
-                <span>Send code via SMS</span>
-                {loading && <CgSpinner size={20} class="animate-spin" />}
-              </button>
-            </div>
-          )}
+        <div className={classes.container2}>
+          <h1>
+            Welcom to <br />
+            CODE A PROGRAM
+          </h1>
+          <div className={classes.icon}>
+            <BsTelephoneFill size={30} />
+          </div>
+          <label htmlFor="" className={classes.lbl}>
+            Verify your phone number
+          </label>
+          <div>
+            <PhoneInput country={"sy"} value="phone" onChange={setPhone} />
+          </div>
+          <button className={classes.btn} onClick={onSignup}>
+            <span>Send code via SMS</span>
+            {loading && <CgSpinner size={20} class="animate-spin" />}
+          </button>
         </div>
       )}
-    </section>
+    </div>
+  )}
+</section>
+
+    
+   
+   </>
+  
   );
 };
 

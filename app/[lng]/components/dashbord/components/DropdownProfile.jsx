@@ -5,7 +5,7 @@ import Transition from '../utils/Transition';
 
 import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
-
+import cookies from 'react-cookies'
 function DropdownProfile({
   align
 }) {
@@ -16,9 +16,10 @@ function DropdownProfile({
   const dropdown = useRef(null);
  function handlesignOut(){
   signOut()
-  fetch('/api/token',{
+cookies.remove('token',{path:'/'})
+/*   fetch('/api/token',{
     method:"DELETE"
-  })
+  }) */
  }
   // close on click outside
   useEffect(() => {

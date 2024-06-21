@@ -15,7 +15,7 @@ const data=await verfiytoken()
     if (req.nextUrl?.pathname.startsWith("/ar/admin")||req.nextUrl?.pathname.startsWith("/en/admin")) {
       const url = req.nextUrl.clone();
      const data=await verfiytoken()
-   console.log(data) 
+   console.log(data,"datta") 
       if (data.status===200) {
         return NextResponse.next();
       } else {

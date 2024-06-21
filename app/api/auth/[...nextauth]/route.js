@@ -12,6 +12,7 @@ const handler = NextAuth({
     maxAge: 30 * 24 * 60 * 60,
   },
   secret: "secretkey",
+  
   providers: [
     CredentialsProvider({
       name: "credentials",
@@ -34,13 +35,14 @@ const handler = NextAuth({
           });
           const data = await res.json();
           if (data.status !== 200 || !data.admin) {
+            console.log("not authorized")
             throw new Error("not authorized");
           }
           console.log(data.admin);
           const admin = data.admin;
           return {
             id: admin.id,
-            name: admin.email,
+            name: "admin",
             email: admin.email,
             role: "admin",
             accessToken: data.token,
@@ -60,7 +62,7 @@ const handler = NextAuth({
             throw new Error(data.msg);
             
           }
-          console.log(data);
+         // console.log(data);
           const user = data.user;
           return {
             id: user.id,
@@ -76,12 +78,16 @@ const handler = NextAuth({
       name: "google",
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      httpOptions:{
+        timeout:40000,
+      },
+      
     }),
   ],
   callbacks: {
     async signIn({ account, profile, user, token }) {
       if (account.provider === "google") {
-        console.log(profile, "profile google");
+       // console.log(profile, "profile google");
         const res = await fetch("http://localhost:5000/user/signingoogle", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -95,34 +101,32 @@ const handler = NextAuth({
         const data = await res.json();
         if (data.status === 200) {
           user = data.user;
-            
-          console.log(data, "all data");
           account.access_token = data.token;
+          //account.userId=user.id
           return true;
         }
       } else {
-        console.log(user,"user")
+       // console.log(user,"user")
         return true;
       }
-    },
+    }, 
 
-    async jwt(params) {
-      console.log(params,"params")
+   async jwt(params) {
+    //  console.log(params,"params")
       if (params.account?.provider === "google") {
         // provider is google
-        const id = cookies().get("userId");
-        params.token.id = id.value || null;
+       // params.token.id = params.account.userId;
         params.token.accessToken = params.account?.access_token;
         params.token.role = "user";
         params.token.name=params.profile.name
-        console.log(params, "params jwt ath");
+       // console.log(params, "google sign");
       } else {
         if (params.user?.id) {
-          params.token.id = params.user.id;
+         // params.token.id = params.user.id;
           params.token.name = params.user.name;
           params.token.role = params.user.role;
         } 
-        console.log(params.user, "params user");
+       // console.log(params.user, "params user");
         if (params.user?.accessToken) {
           
           params.token.accessToken = params.user.accessToken;
@@ -130,13 +134,15 @@ const handler = NextAuth({
       }
       
       
-      cookies().set("token", params.token.accessToken);
+      const expires = new Date();
+      expires.setDate(expires.getDate() + 30);
+      cookies().set("token", params.token.accessToken,{expires,path:'/'});
 
       return params.token;
     },
     async session({ session, token }) {
       if (session.user) {
-        session.user.id = token.id;
+       // session.user.id = token.id;
         session.user.name = token.name;
         session.role = token.role;
       }
@@ -144,7 +150,7 @@ const handler = NextAuth({
         
         session.accessToken = token.accessToken;
       }
-      console.log(session, "my session",v++);
+      //console.log(session, "my session",v++);
       return session;
     },
   },

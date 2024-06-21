@@ -6,19 +6,14 @@ import { CgSpinner } from "react-icons/cg";
 import Link from "next/link";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useDispatch } from "react-redux";
-import { setUser } from "@/lib/features/orderSlice";
 import { useTranslation } from "@/app/i18n/client";
-import { signIn } from "next-auth/react";
 import cookies from "react-cookies";
 export default function SignUp({lng}) {
- //const [token,setToken] =useCookies(['token2'])
   const {t}=useTranslation(lng,"signUp")
   const [info, setInfo] = useState({ firstname: "",lastname:"",location:"",city:"",towen:"",phoneNumber:"",birthDate:new Date(),gender:"male", email: "", password: "" });
   const [error, setError] = useState("");
   const [pending, setPending] = useState("");
   const route = useRouter();
-const dispatch=useDispatch()
   function handleInput(e) {
     setInfo((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
@@ -45,16 +40,10 @@ const dispatch=useDispatch()
     .then((data) => {
       console.log(data);
       if (data.status === 200&&data.user) {
-      /*   signIn("credentials",{
-          email:data.user.email,
-          password:data.user.password,
-          callbackUrl:"/en/user/otp"
-        }) */
-       // setToken('token2',data.token,{maxAge:30})
    
        const expires = new Date();
        expires.setDate(expires.getDate() + 30);
-      cookies.save('token2',data.token,{expires,path:'/'})
+      cookies.save('token',data.token,{expires,path:'/'})
          fetch('http://localhost:5000/user/refresh-token',{
           method:"POST",
           headers:{

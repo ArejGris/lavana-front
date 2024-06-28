@@ -1,0 +1,72 @@
+.AddCategory{
+height: 100%;
+width: 100%;
+display: flex;
+justify-content: center;
+align-items: center
+
+;
+}
+.add{
+
+    width: 60%;
+}
+.form{
+    width: 70%;
+height:auto;
+padding: 20px;
+border-left: 1px solid rgb(38 46 67);
+display: flex;
+flex-direction: column;
+justify-content: center;
+
+}
+.formGroup{
+display: flex;
+flex-direction: column;
+padding: 10px;
+}
+.formGroup input{
+    width: 100%;
+    border-radius: 10px;
+    background-color: rgba(228, 228, 228, 0.975);
+    padding: 10px;
+    border: 1px solid white;
+
+}
+.formGroup label{
+
+}
+.btn{
+background-color: rgb(38 46 67);
+padding: 10px;
+color: white;
+border-radius: 15px;
+}
+.catsnap{
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+   height: fit-content;
+   width: fit-content;
+   margin: auto;
+   box-shadow: 2px 8px 20px rgb(148, 149, 153);
+    
+}
+.catsnap .img{
+    border-radius: 10px;
+}
+.catsnap .img img{
+    width: 200px;
+    border: 3px solid rgb(38 46 67);
+    border-radius: 10px;
+}
+.catsnap h1{
+    z-index: 9;
+    padding: 10px ;
+    font-weight: 900;color: rgb(38 46 67);
+    text-transform: uppercase;
+    ;
+}

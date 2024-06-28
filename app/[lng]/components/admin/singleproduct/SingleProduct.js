@@ -5,8 +5,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "./single.css";
+import Link from "next/link";
 import { Navigation, Scrollbar, A11y } from "swiper/modules";
-const SingleProduct = ({ id }) => {
+import DeleteProduct from "../deleteproduct/DeleteProductModel";
+const SingleProduct = ({ lng,id }) => {
   const [product, setProduct] = useState(null);
   const [stars, setStars] = useState(null);
   const [topstar, setTopstar] = useState(0);
@@ -15,29 +17,27 @@ const SingleProduct = ({ id }) => {
     { customer: "helana issa", content: "this is beautiful" },
     { customer: "areeg issa", content: "this is beautiful" },
   ]);
+  
+  const [isDeleteModel,setIsDeleteModel]=useState(false)
   const [active, setActive] = useState("comments");
-  const [images, setImages] = useState([
-    "/images/image-6-370x266.jpg",
-    "/images/product2.jpg",
-    "/images/image-19-321x333.jpg",
-    "/images/image-21-727x804.jpg",
-  ]);
+  const [images, setImages] = useState([]);
   const commentRef = useRef(null);
   async function fetchProduct() {
     const res = await fetch("http://localhost:5000/admin/get-product/" + id);
     const data = await res.json();
     console.log(data);
     setProduct(data.product);
+    setImages(data.product.images)
   }
 
   async function getReviews() {
     const res = await fetch("http://localhost:5000/admin/get-review/" + id);
     const data = await res.json();
     setStars(data.stars);
-   const thestars=data.stars
-  const max=thestars.reduce((prev,current)=>((prev.reviews>current.reviews)?prev:current),thestars[0])
-setTopstar(max.val)
+  const max=data.max
+setTopstar(max)
 setReview(data.review)
+
 console.log(max)
   }
   async function getComment() {
@@ -72,6 +72,7 @@ console.log(max)
   return (
     product && (
       <div className={classes.container}>
+ {isDeleteModel&&<DeleteProduct  id={id} setOpen={setIsDeleteModel} getData={fetchProduct}/>}
         <div className={classes.product}>
           <div className={classes.main}>
             <div className={classes.mainimg}>
@@ -84,7 +85,7 @@ console.log(max)
                 onSlideChange={() => console.log("slide change")}
                 onSwiper={(swiper) => console.log(swiper)}
               >
-                {images &&
+                {images.length>0 &&
                   images.map((img,index) => (
                     <SwiperSlide key={index}>
                       <div className="img">
@@ -119,15 +120,13 @@ console.log(max)
               )}
               </div>
               <div className={classes.actions}>
-                <button>
-                  <i className="bi bi-pencil-square"></i>
-                </button>
+              <Link href={`/${lng}/admin/updateProduct/${product.id}`}><i className="bi bi-pencil-square"></i></Link>
+              
                 <button>
                   <i className="bi bi-bookmark-star"></i>
                 </button>
-                <button>
-                  <i className="bi bi-trash"></i>
-                </button>
+                <button onClick={()=>setIsDeleteModel(true)}><i className="bi bi-trash"></i></button>
+                
                 <button>
                   <i className="bi bi-download"></i>
                 </button>
@@ -233,13 +232,21 @@ console.log(max)
                     </ul>
                     <div>({review} Review)</div>
                     <ul className="reviews-list">
-                     { stars.map((star)=><li>
+                     { stars.map((star)=>{
+                      let percent
+                      if(review!==0){
+                       percent=(star.reviews/review)*100}else{
+                      percent=0
+                      }
+
+                      return(
+                     <li>
                         <h1>{star.val} star</h1>{" "}
                         <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                          <div className="bg-green-600 h-2.5 rounded-full" style={{width:`${(star.reviews/review)*100}%`}}></div>
+                          <div className="bg-green-600 h-2.5 rounded-full" style={{width:`${percent}%`}}></div>
                         </div>
-                        <h1>{(star.reviews/review)*100}%</h1>
-                      </li>)}
+                        <h1>{percent}%</h1>
+                      </li>)})}
                     
                     </ul>
                   </div>

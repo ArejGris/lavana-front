@@ -1,67 +1,49 @@
-
-.AddProduct{
-padding: 10px;
-border-radius: 5px;
-display: flex;
-flex-direction: column;
-gap: 10px;
+.container{
+  display: flex;
+  align-items: center;
+  width: 80%;
+  margin: auto;
 }
-.AddProduct .form-group{
 
-}
-.background {
-    background-color: rgba(0, 0, 0, 0.612);
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-    z-index: -1;
-  }
-  .container {
-    height: 100%;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-  }
   .AddProduct h1 {
     color: white;
     font-weight: 700;
   }
   .AddProduct {
-    z-index: 100;
+   
+    margin-top: 10px;
     padding: 10px;
-    border-radius: 5px;
     display: flex;
     flex-direction: column;
     gap: 10px;
-    background-color: rgb(38 46 67);
-    width: 60%;
-    height: 70%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    position: absolute;
-    overflow-y: auto;
-    scrollbar-width: thin;
+  border-left:1px solid rgb(38 46 67);
+    width:50%;
+  }
+  .snap{
+    width: 40%;
   }
   .AddProduct .formGroup {
     display: flex;
-    flex-direction: column;
     padding: 10px;
+    width: 100%;
   }
-  .AddProduct .formGroup input ,.AddProduct .formGroup select {
-    width: 90%;
+  .AddProduct .formGroup2{
+    display: flex;
+    padding: 10px;
+    flex-direction: column; 
+  }
+  .formGroup label{
+    width: 50%;
+  }
+ 
+  .AddProduct .formGroup input,  .AddProduct .formGroup2 input ,.AddProduct .formGroup select {
+    width: 50%;
     border-radius: 10px;
     background-color: rgba(228, 228, 228, 0.975);
     padding-left: 10px;
     border: 1px solid white;
   }
-  .AddProduct .formGroup label {
-    color: white;
-  }
+
   .btnclose {
     border-radius: 50%;
     display: block;
@@ -98,4 +80,49 @@ gap: 10px;
     display: flex;
     justify-content: center;
     gap: 20px;
+      }
+      .note{
+        position: fixed;
+        top: 50%;
+        left:50%;
+        transform: translate(-50%,-50%);
+        border-radius: 10px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 17px;
+        border: none;
+        background-color: rgb(38 46 67);
+        color: white;
+        font-weight: 700;
+      }
+      .note button{
+        padding: 10px 20px;
+        border-radius: 10px;
+        background-color: rgb(52, 95, 109);
+        color: white;
+        width: 50%;
+      }
+      .note button:hover{
+      scale: 1.08;
+      }
+      .note button:focus{
+        scale: .9;
+      }
+      .cats{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .cat{
+       display: flex;
+       gap: 3px;
+      }
+      .error{
+        width: 100%;
+        height: 40px;
+        color: white;
+        background-color: rgba(255, 0, 0, 0.76);
       }

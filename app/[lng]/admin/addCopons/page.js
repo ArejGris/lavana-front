@@ -3,12 +3,12 @@ import dynamic from "next/dynamic";
 import jsPDF from "jspdf";
 //const JsPDF=dynamic(()=>import('jspdf'),{ssr:false})
 import { useRef, useState } from "react";
+import classes from './addcopon.module.css'
  const AddCopons = () => {
     
 const discount=useRef()
 const number=useRef()
 const [copons,setCopons]=useState([])
-const [urls,setUrls]=useState([])
    async function handleSubmit(e){
 e.preventDefault()
 const discountv=discount.current.value
@@ -39,33 +39,37 @@ setCopons(data.copons)
     }
     const doc=new jsPDF()
     for(let t=0;t<copons.length;t++){
-                   
-          doc.addPage()
           doc.text(copons[t].code,50,50)
-                
-            
+          doc.addPage()
     }
     doc.save(`copon${v++}.pdf`) 
+const form=document.getElementById("form")
+const inputs=form.querySelectorAll("input")
+inputs.forEach(input=>{
+    input.value=null
+})
     }
-    return ( <div>
-              <form onSubmit={handleSubmit}>
-        <div className="form-group">
+    return ( <div className={classes.coponpage}>
+              <form onSubmit={handleSubmit} className={classes.form} id="form">
+                <h1>add copon</h1>
+
+        <div className={classes.formGroup}>
             <label htmlFor="">discount amount</label>
-             <input type="text" ref={discount}/>
+             <input type="text" ref={discount}/><span>%</span>
         </div>
-        <div className="form-group">
+        <div className={classes.formGroup}>
         <label htmlFor="">number of copons</label>
              <input type="text" ref={number}/>
         </div>
-        <button>send</button>
+        <div className={classes.fromGroup}>
+            
+        <button className={classes.btn} type="submit">create</button>
+        
+       {copons.length>0&& <button onClick={print} type="button" className={classes.btn}  >print</button>}
+            </div>
+        
     </form>
-    <div>
-        <h1>print all copons</h1>
-        <h4>{urls.length>0&&urls.forEach(url=><>
-        <a href={url.url} target="_blank">url.code</a>
-        </>)}</h4>
-        <button onClick={print}>print</button>
-    </div>
+  
     </div> );
 }
  

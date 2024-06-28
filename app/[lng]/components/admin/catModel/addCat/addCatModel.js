@@ -1,30 +1,13 @@
 'use client'
 import { useRef, useState } from "react";
-import { Footer } from "../../components/Footer/client";
 import { useTranslation } from "@/app/i18n/client"; 
-import classes from './addCat.module.css'
-import Model from "../../components/model/model";
-const AddCategory = ({ params: { lng } }) => {
+import classes from './addcat.module.css'
+const AddCategoryModel = ({lng,setAddcat,getData}) => {
   const { t } = useTranslation(lng, 'addCategory')
     const [catdata,setCatdata]=useState({title:'',title2:''})
     const [image,setImage]=useState(null)
     const [note,setNote]=useState(null)
-async function storeImg(){
-    const formdata=new FormData()
-    formdata.append('image',image)
-    try {
-        const res=await fetch('/api/upload',{
-            method:"POST",
-            body:formdata
-        })
-        const data=await res.json()
-        if(!res.ok){
-            throw data
-        }
-    } catch (error) {
-       console.log(error) 
-    }
-}
+
 function changeData(e){
 setCatdata((prev)=>({...prev,[e.target.name]:e.target.value}))
 }
@@ -42,12 +25,14 @@ setCatdata((prev)=>({...prev,[e.target.name]:e.target.value}))
               const data=await res.json()
                console.log(data)
                 if(data.status===200){
+                    await getData()
                     setNote("successfully added the category")
                 }else{
                     setNote("an error occured")
                 }
             const form=e.target
             form.reset()
+            setAddcat(false)
             
         } catch (error) {
             console.log(error)
@@ -57,17 +42,9 @@ setCatdata((prev)=>({...prev,[e.target.name]:e.target.value}))
     
     }
     return ( <>
-    {note&&<Model note={note} setAlert={setNote}/>}
-    <div className={classes.AddCategory}>
-    <div className={classes.catsnap}>
-        <div className={classes.img}>
-            <img src="/images/product2.jpg" alt="" />
-        </div>
-        <h1>{catdata.title}</h1>
-
-     </div>
-     <div className={classes.add}>
+    <div className={classes.background}></div>
      <form onSubmit={send} className={classes.form}>
+        {note&&<div className={classes.note}>{note}</div>}
         <div className={classes.formGroup}>
             <label htmlFor="">  {t('title')}</label>
             <input type="text" name="title"  onChange={(e)=>changeData(e)} />
@@ -80,17 +57,17 @@ setCatdata((prev)=>({...prev,[e.target.name]:e.target.value}))
             <label htmlFor="">  {t('image')}</label>
             <input type="file" onChange={(e)=>setImage(e.target.files[0])}/>
         </div>
+        <div className={classes.actions}>
+            
+        <button type="submit" className={classes.btn}>{t('btn')}</button>
         
-        <button type="submit" className={classes.btn}>{t('send')}</button>
+        <button type="btn" className={classes.btn2} onClick={()=>setAddcat(false)}>{t('cancel')}</button>
+
+        </div>
     </form>
 
-     </div>
-   
-   
-    </div>
   
-    <Footer  lng={lng} path="/admin/addCategory"/>
     </> );
 }
  
-export default AddCategory;
+export default AddCategoryModel;

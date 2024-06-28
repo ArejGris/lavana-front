@@ -14,10 +14,8 @@
 }
 .price{
    display: flex;
-   justify-content: left;
    align-items: center;
-   gap: 5px;
-   margin-top: -10px;
+   gap: 15px;
 }
 .price span{
     text-decoration: line-through;

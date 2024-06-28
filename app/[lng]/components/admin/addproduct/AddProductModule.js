@@ -23,7 +23,7 @@ const AddProduct = ({lng,setIsModel,getData}) => {
             mode:'cors'
         })
         const res=await data.json()
-       setCategory(res.categorys)
+       setCategory(res.categories)
        console.log(res)
     }
     useEffect(()=>{
@@ -100,7 +100,14 @@ const AddProduct = ({lng,setIsModel,getData}) => {
                 setSelectedCategory([])
                 setImages([])
                 setProgress(0)
-                form.reset()}
+                form.reset()
+                const f=document.getElementById("form")
+                const checkboxs=f.querySelectorAll('input[type="checkbox"]')
+                checkboxs.forEach(checkbox=>{
+                    checkbox.checked=false
+                })
+
+            }
             
         } catch (error) {
             console.log(error)
@@ -110,7 +117,7 @@ const AddProduct = ({lng,setIsModel,getData}) => {
     return ( <div className={classes.container}>
     <div className={classes.background} onClick={()=>setIsModel(false)}>
         </div>
-    <form onSubmit={send} className={classes.AddProduct}>
+    <form onSubmit={send} className={classes.AddProduct} id="form">
         <h1>ADD Product</h1> <button onClick={()=>setIsModel(false)} className={classes.btnclose}><i className="bi bi-x-lg" style={{color:'white',fontWeight:'700'}}></i></button>
    
         <div className={classes.formGroup}>
@@ -120,6 +127,7 @@ const AddProduct = ({lng,setIsModel,getData}) => {
         <div className={classes.formGroup}>
             <label htmlFor="">{t('size')}</label>
             <select ref={size} >
+                <option value="size">size</option>
                 <option value="xx-small">xx-small</option>
                 <option value="x-small">x-small</option>
                 <option value="small">small</option>
@@ -153,11 +161,11 @@ const AddProduct = ({lng,setIsModel,getData}) => {
         </div>
         <div className={classes.formGroup}>
             <label htmlFor="">{t('categories')}</label>
-            <div type="text" >
-              {category&&category.map((cat)=><>
+            <div  >
+              {category&&category.map((cat)=><div className="form-group">
               <label>{cat.title}</label>
-              <input type="checkbox" value={cat.id} onChange={(e)=>changeSelect(cat.id,e.target.checked)}/>
-              </>)}
+              <input type="checkbox" value={cat.id} onChange={(e)=>changeSelect(cat.id,e.target.checked)} onReset={(e)=>{console.log("ppp");e.target.checked=false}} />
+              </div>)}
             </div>
         </div>
         <div className={classes.actions}>

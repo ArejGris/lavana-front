@@ -1,0 +1,59 @@
+
+.snap{
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+width: fit-content;
+padding: 10px;
+}
+.snap .wrapper{
+ display: flex;
+ align-items: center;
+}
+.review,.actions{
+    list-style: none;
+    display: flex;
+    gap: 5px;
+    
+    }
+.wrapper .img{
+width: 50%;
+}
+.img img{
+    
+    width: 80%;
+}
+.wrapper .contents{
+display: flex;
+flex-direction: column;
+gap: 10px;
+padding: 10px;
+}
+.price{
+    border-radius: 20px;
+    background-color: gold;
+    color: white;
+    padding: 5px;
+}
+.contents h1{
+    text-transform: uppercase;
+    font-weight: 900;
+}
+.imgs{
+    padding: 10px;
+}
+.imgs ul{
+    width: 100%;
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+}
+.imgs ul li{
+    width: 60px;
+    height: 60px;
+}
+.imgs ul li img{
+    width: 100%;
+    height: 100%;
+}

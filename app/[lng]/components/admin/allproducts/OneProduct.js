@@ -13,9 +13,8 @@ const OneProduct = ({lng, product,grid,getData }) => {
       const res=await  fetch('http://localhost:5000/admin/get-review/'+product.id)
       const data=await res.json()
 
-      const thestars=data.stars
-      const topreview=thestars.reduce((prev,current)=>((prev.reviews>current.reviews)?prev:current),thestars[0])
-      setReview(topreview.val)
+      setReview(data.max)
+
     }
    
    useEffect(()=>{
@@ -27,7 +26,7 @@ getreviews()
  {  grid? <li className={classes.li}>
       <div style={style.card}>
       <div className={classes.actions}>
-                <button><i className="bi bi-pencil-square"></i></button>
+                <Link href={`/${lng}/admin/updateProduct/${product.id}`}><i className="bi bi-pencil-square"></i></Link>
                 <button ><i className="bi bi-bookmark-star"></i></button>
                 <button onClick={()=>setIsDeleteModel(true)}><i className="bi bi-trash"></i></button>
                 <button><i className="bi bi-download"></i></button>
@@ -36,7 +35,7 @@ getreviews()
             
         <div style={style.img}>
    
-         <Link href={`/${lng}/admin/allProducts/${product.id}`}> <img src="/images/product1.jpg" alt="" /></Link>
+         <Link href={`/${lng}/admin/allProducts/${product.id}`}> <img src={product.images[0]} alt="" /></Link>
         
         </div>
         <div className={classes.cardbody}>
@@ -63,7 +62,7 @@ getreviews()
             
         <div style={style.img2}>
    
-          <img src="/images/product1.jpg" style={{height:'100%'}} alt="" />
+          <img src={product.images[0]} style={{height:'100%'}} alt="" />
         
         </div>
         <div className={classes.cardbody}>

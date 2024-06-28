@@ -1,0 +1,42 @@
+.container{
+
+}
+.background{
+position: absolute;
+height: 100%;
+width: 100%;
+left: 0;
+top: 0;
+background-color: rgba(128, 128, 128, 0.123);
+}
+.note{
+position: absolute;
+top: 50%;
+left:50%;
+transform: translate(-50%,-50%);
+width: fit-content ;
+height: fit-content;
+padding: 15px;
+border-radius: 15px;
+background-color:rgb(38 46 67) ;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+}
+.note p{
+    color: white;
+}
+.note button{
+    padding: 10px 20px;
+    border-radius: 10px;
+    background-color: rgb(52, 95, 109);
+    color: white;
+    width: 50%;
+  }
+  .note button:hover{
+  scale: 1.08;
+  }
+  .note button:focus{
+    scale: .9;
+  }

@@ -9,17 +9,17 @@ import Link from "next/link";
 const AllProducts = ({ lng}) => {
    const [grid,setGrid] =useState(true)
    const [isModel,setIsModel]=useState(false)
-   const [products,setProducts]=useState([])
    const [count,setCount]=useState(0)
+   const [products,setProducts]=useState([])
    async  function getProduct(){
-         const res=await fetch('http://localhost:5000/admin/get-products',{mode:"cors"})
-         
-         const data= await res.json()
-         console.log(data,"data")
-         setProducts(data.products)
+     const res=await fetch('http://localhost:5000/admin/get-products',{mode:"cors"})
+     
+     const data= await res.json()
+     console.log(data,"data")
+     setProducts(data.products)
 
- 
-     }
+
+ }
      useEffect(()=>{
          getProduct()
          console.log(count)

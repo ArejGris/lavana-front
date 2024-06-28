@@ -1,0 +1,39 @@
+.OneCategory{
+    width: 100%;
+    height: 100%;
+display: flex;
+align-items: center;
+}
+.category{
+width:50%;
+}
+.category .cat{
+    box-shadow: none;
+    max-width: 100%;
+    
+}
+.list{
+    display: flex; 
+    gap: 20px;
+    justify-content: space-between;
+    border-bottom: 1px solid plum;
+    padding: 10px;
+ }
+ .list .actions{
+     display: flex;
+     gap: 15px;
+ }
+ .list .actions button{
+     cursor: pointer;
+     border-radius: 5px;
+ }
+ .listP{
+    list-style: none;
+    width: 100%;
+ }
+ .products{
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+border-left: 1px solid plum;
+ }

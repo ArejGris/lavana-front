@@ -1,5 +1,6 @@
 {
   "title":"category name"  ,
   "title2":"category name in arabic"  ,
-  "btn":"send"
+  "btn":"send",
+  "cancel":"cancel"
 }

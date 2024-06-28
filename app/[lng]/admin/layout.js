@@ -10,17 +10,22 @@ import Header from "../components/dashbord/partials/Header";
 export default function Layout({children,params: {
   lng
 }}){
-  
+  let dir
+    if(lng==="ar"){
+      dir="rtl"
+    }else{
+      dir="ltr"
+    }
   const [sidebarOpen, setSidebarOpen] = useState(false);
  return(
     <div className="admin">
  <ThemeProvider>
 
            {/* Sidebar */}
-           <div className="t-90 flex h-screen  w-full">
+           <div style={{direction:"ltr"}} className="t-90 flex h-screen  w-full">
 
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} lng={lng}/>
-        <div className="flex flex-col w-full">
+        <div dir={dir} className="flex flex-col w-full">
           
         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
         {children}

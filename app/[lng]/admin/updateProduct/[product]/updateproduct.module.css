@@ -1,0 +1,64 @@
+.container{
+    position: relative;
+display: flex;
+align-items: center;
+width: fit-content;
+margin: auto;
+}
+.form{
+width: 80%;
+padding: 10px;
+border-left: 1px solid rgb(38 46 67);;
+
+}
+.formGroup{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.formGroup input,.formGroup select{
+    width: 90%;
+    border-radius: 10px;
+    background-color: rgba(228, 228, 228, 0.975);
+    padding-left: 10px;
+    border: 1px solid white;
+}
+.formGroup label{
+}
+.btn{
+    background-color:rgb(38 46 67);
+    padding: 5px;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.note{
+    position: absolute;
+    top: 50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 17px;
+    border: none;
+    background-color: rgb(38 46 67);
+    color: white;
+    font-weight: 700;
+  }
+  .note button{
+    padding: 10px 20px;
+    border-radius: 10px;
+    background-color: rgb(52, 95, 109);
+    color: white;
+    width: 50%;
+  }
+  .note button:hover{
+  scale: 1.08;
+  }
+  .note button:focus{
+    scale: .9;
+  }

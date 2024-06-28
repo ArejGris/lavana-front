@@ -11,14 +11,9 @@ export default function RootLayout({ children ,
   params: {
     lng
   }}) {
-    let dir
-    if(lng==="ar"){
-      dir="rtl"
-    }else{
-      dir="ltr"
-    }
+    
   return (
-    <html lang={lng} dir={dir}>
+    <html lang={lng} >
     
       <body>
       <Provider>

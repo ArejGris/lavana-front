@@ -2,28 +2,27 @@
 import { useEffect, useState, useRef } from "react";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import  {storage}  from "@/fiebaseStore";
+import classes from './updateproduct.module.css'
 import SnapProduct from "@/app/[lng]/components/products/snapProduct";
-const UpdatPage = (context) => {
+const UpdatPage = ({params:{lng,product}}) => {
   const [data, setData] = useState(null);
- // const [images, setImages] = useState([]);
+  const [images, setImages] = useState([]);
   const [category, setCategory] = useState([]);
- // const [selectedCategory, setSelectedCategory] = useState([]);
+ const [selectedCategory, setSelectedCategory] = useState([]);
+ const [note,setNote]=useState(false)
   const [progress2, setProgress2] = useState(0);
-  const [oldproduct, setOldproduct] = useState(null);
   const [mode,setMode]=useState("")
   const [show,setShow]=useState(true)
-  const { product } = context.params;
   async function getCat() {
     const data = await fetch("http://localhost:5000/admin/get-categorys",{mode:"cors"});
     const res = await data.json();
     setCategory(res.categorys);
-    console.log(res);
+   
   }
   useEffect(() => {
     getCat();
   }, []);
   function handleAddImages(e) {
-    //setImages(oldproduct.images);
     const inputfiles = document.getElementById("filenewInput");
     const files = inputfiles.files;
     console.log(files);
@@ -52,9 +51,9 @@ const UpdatPage = (context) => {
               snap.style.height = "50px";
               imagesdiv.appendChild(snap);
                 setImages((prev) => [...prev,downloadURl]);
-                setOldproduct((prev) => ({ ...prev, images}));
+                //setData((prev) => ({ ...prev, images:[...prev.images,downloadURl]}));
               
-              console.log(oldproduct);
+              console.log(data);
             });
           }
         );
@@ -62,17 +61,16 @@ const UpdatPage = (context) => {
     });
   }
   function changeSelect(value, checked) {
-    console.log(value, checked);
     if (checked) {
       setSelectedCategory((prev) => [...prev, value]);
     } else {
       setSelectedCategory(selectedCategory.filter((cat) => cat !== value));
     }
+  
   }
  
   function handleChangeData(e) {
     setData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    setOldproduct((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
   async function send(e) {
     e.preventDefault();
@@ -84,47 +82,51 @@ const UpdatPage = (context) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          categories: selectedCategory,
           ...data,
+          categories: selectedCategory,
           images
         }),
         mode: "cors",
       });
       const data2 = await res.json();
-      console.log(data2);
+      console.log(data2,"data2")
+      if(res.status===200){
+        setNote(true)
+      }
     } catch (error) {
       console.log(error);
     }
   }
-  useEffect(() => {
-   async function fetchData(){ console.log(product)
+  async function fetchData(){ 
     const res = await fetch(
       `http://localhost:5000/admin/get-product/${product}`
     );
     const data = await res.json();
-    console.log(data)
-    setOldproduct(data.product);
-    setData({...data.product})
+    setData(data.product)
+    if(data.product){
+    setImages(data.product.images)}
 
   }
+  useEffect(() => {
+ 
     fetchData()
   }
  , []);
   const handleProduct = () => {
     return (
-      <>
-        <form onSubmit={send}>
-          <div className="form-group">
+        <form onSubmit={send} className={classes.form}>
+          <div className={classes.formGroup}>
             <label htmlFor="">price</label>
             <input
               type="number"
               name="price"
+              placeholder={data?data.price:""}
               onChange={(e) => handleChangeData(e)}
             />
           </div>
-          <div className="form-group">
+          <div className={classes.formGroup}>
             <label htmlFor="">size</label>
-            <select name="size" onChange={(e) => handleChangeData(e)}>
+            <select name="size" value={data?data.size:'small'} onChange={(e) => handleChangeData(e)}>
               <option value="xx-small">xx-small</option>
               <option value="x-small">x-small</option>
               <option value="small">small</option>
@@ -135,30 +137,50 @@ const UpdatPage = (context) => {
             </select>
           </div>
 
-          <div className="form-group">
+          <div className={classes.formGroup}>
             <label htmlFor="">title</label>
             <input
               type="text"
               name="keyWord"
+              placeholder={data?data.keyWord:""}
               onChange={(e) => handleChangeData(e)}
             />
           </div>
-          <div className="form-group">
+            <div className={classes.formGroup}>
+            <label htmlFor="">title in arabic</label>
+            <input
+              type="text"
+              name="keyWord2"
+              placeholder={data?data.keyWord2:''}
+              onChange={(e) => handleChangeData(e)}
+            />
+          </div>
+          <div className={classes.formGroup}>
             <label htmlFor="">description</label>
             <input
               type="text"
               name="description"
+              placeholder={data?data.description:""}
               onChange={(e) => handleChangeData(e)}
             />
           </div>
-          <div className="form-group">
+            <div className={classes.formGroup}>
+            <label htmlFor="">description in arabic</label>
+            <input
+              type="text"
+              name="description2"
+              placeholder={data?data.description2:""}
+              onChange={(e) => handleChangeData(e)}
+            />
+          </div>
+          <div className={classes.formGroup}>
             {show&&<div className="actions">
             <label htmlFor="">you want change or add</label><button onClick={()=>{setMode("change");setImages([]);setShow(false)}}>change</button>
             <button  onClick={()=>{setMode("add");setShow(false)}}>add</button></div>}
           </div>
           <div className="images" id="images"></div>
        
-          <div className="form-group" id="addimages">
+          <div className={classes.formGroup} id="addimages">
             <label htmlFor="">{mode=="add"?"add images":"change images"}</label>
             <input
               type="file"
@@ -170,7 +192,7 @@ const UpdatPage = (context) => {
             />
             <progress value={progress2} max="100"></progress>
           </div>
-          <div className="form-group">
+          <div className={classes.formGroup}>
             <label htmlFor="">categories</label>
             <div type="text">
               {category &&
@@ -186,14 +208,15 @@ const UpdatPage = (context) => {
                 ))}
             </div>
           </div>
-          <button type="submit">send</button>
+          <button type="submit" className={classes.btn}>send</button>
         </form>
-      </>
+      
     );
   };
   return (
-    <div style={{ display: "flex" }}>
-      {oldproduct && <SnapProduct product={oldproduct} />}
+    <div className={classes.container}>
+     {note&& <div className={classes.note}><p>successfully updated the product</p><button onClick={()=>setNote(false)}>ok</button></div>}
+      {data && <SnapProduct product={data} lng={lng} setData={setData}/>}
       {handleProduct()}
     </div>
   );
